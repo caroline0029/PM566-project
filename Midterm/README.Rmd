@@ -2,29 +2,211 @@
 title: "Midterm Project"
 author: "Caroline He"
 date: "10/19/2021"
-output: html_document
+always_allow_html: yes
+output: github_document
 ---
+
+# PM566 Midterm Project
+
+## Introduction 
+####(provide background on your dataset and formulated question)
+
+2013 to 2015, 3-year average. Rates are age-standardized. County rates are spatially smoothed. The data can be viewed by gender and race/ethnicity. Data source: National Vital Statistics System. 
+What is the association between Heart diseases death and two stratification (gender and races) in California?
+
+## Methods 
+#### (include how and where the data were acquired, how you cleaned and wrangled the data, what tools you used for data exploration)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r package, warning=FALSE}
+library(gsubfn)
+library(data.table)
+library(dplyr)
+library(dtplyr)
+library(tidyr)
+library(readr)
+library(ggplot2)
+library(leaflet)
+library(sf)
+library(raster)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r download_data}
+# download and read in the data
+if (!file.exists("Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv")) {
+download.file("https://chronicdata.cdc.gov/api/views/i2vk-mgdh/rows.csv?accessType=DOWNLOAD", 
+              method="libcurl", 
+              timeout = 60
+              )
+}
+heartdisease <- data.table::fread("Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r check_NAs}
+# check for NAs
+knitr::kable(dim(heartdisease))
+knitr::kable(head(heartdisease))
+knitr::kable(tail(heartdisease))
+knitr::kable(summary(is.na(heartdisease)))
+```
+
+```{r remove_NAs}
+# Looks like only Data_Value contained NAs
+heartdisease$Data_Value <- heartdisease$Data_Value %>% replace_na(0)
+mean(is.na(heartdisease$Data_Value))
+knitr::kable(summary(is.na(heartdisease)))
+```
+
+```{r data_selection, warning=FALSE}
+# selec data in California
+heartdisease_CA <- heartdisease[LocationAbbr == 'CA' & GeographicLevel == 'County']
+knitr::kable(head(heartdisease_CA))
+knitr::kable(dim(heartdisease_CA))
+# remove "()" in strings
+heartdisease_CA$`Location 1` <- gsub("[()]", "", heartdisease_CA$`Location 1`)
+# separate lat and lon variables
+heartdisease_CA <- heartdisease_CA %>%
+  separate(col = 'Location 1', into=c('lat', 'lon'), sep=',')
+# convert chr to num
+heartdisease_CA$Data_Value <- as.numeric(heartdisease_CA$Data_Value)
+heartdisease_CA$lat <- as.numeric(heartdisease_CA$lat)
+heartdisease_CA$lon <- as.numeric(heartdisease_CA$lon)
+# stratify into different death rate range
+heartdisease_CA[, death_rate_range := 
+          fifelse(Data_Value < 100, "<100",
+                  fifelse(Data_Value >= 100 & Data_Value < 200, "100-200",
+                          fifelse(Data_Value >= 200 & Data_Value < 300, "200-300",
+                                  fifelse(Data_Value >= 300 & Data_Value < 400, "300-400",
+                                          fifelse(Data_Value >= 400 & Data_Value <500, "400-500",
+                                                  fifelse(Data_Value >= 500 & Data_Value < 600, "500-600",
+                                                          fifelse(Data_Value > 600, ">600", "none")))))))]
+knitr::kable(head(heartdisease_CA))
+```
+
+```{r data_stratification}
+CA_gender <- heartdisease_CA[Stratification1 != 'Overall']
+knitr::kable(head(CA_gender))
+CA_race <- heartdisease_CA[Stratification2 != 'Overall']
+knitr::kable(head(CA_race))
+CA_overall <- heartdisease_CA[Stratification1 == 'Overall' & Stratification2 == 'Overall']
+knitr::kable(head(CA_overall))
+knitr::kable(dim(CA_overall))
+```
+
+## Preliminary Results 
+
+#### (provide summary statistics in tabular form and publication-quality figures, take a look at the kable function from knitr to write nice tables in Rmarkdown)
+
+```{r}
+CA_gender %>%
+    ggplot(mapping = aes(x = Data_Value)) + 
+    geom_histogram(mapping = aes (fill = Stratification1)) +
+    scale_fill_brewer(palette = "BuPu") +
+    labs(
+      x = "death rate per 100,000 population",
+      y = "Count",
+      title = "Histogram of death rate by gender in CA")
+```
+
+```{r}
+CA_race %>%
+    ggplot(mapping = aes(x = Data_Value)) + 
+    geom_histogram(mapping = aes (fill = Stratification2)) +
+    scale_fill_brewer(palette = "BuPu") +
+    labs(
+      x = "death rate per 100,000 population",
+      y = "Count",
+      title = "Histogram of death rate by race in CA")
+```
+
+```{r}
+CA_male <- heartdisease_CA[Stratification1 == 'Male']
+CA_female <- heartdisease_CA[Stratification1 == 'Female']
+
+temp.pal <- colorNumeric(palette = "YlGnBu", domain = CA_gender$Data_Value)
+
+map_gender <- leaflet() %>% 
+  addProviderTiles('CartoDB.Positron') %>% 
+  addCircles(
+    data = CA_male,
+    lat = ~lat, lng=~lon,
+    label = CA_male$LocationDesc, color = ~ temp.pal(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = "Male"
+    ) %>%
+  addCircles(
+    data = CA_female,
+    lat = ~lat, lng=~lon,
+    label = CA_female$LocationDesc, color = ~ temp.pal(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = "Female"
+    ) %>%
+  addCircles(
+    data = CA_overall,
+    lat = ~lat, lng=~lon,
+    label = CA_overall$LocationDesc, color = ~ temp.pal(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = "Overall"
+    ) %>%
+  addLayersControl(baseGroups = c("Male", "Famle", "Overall")) %>%
+  addLegend('bottomleft', pal=temp.pal, values=CA_gender$Data_Value,
+          title='heart diseases death rate per 100,000 population based on gender in CA', opacity=1)
+map_gender
+```
+
+```{r}
+CA_white <- heartdisease_CA[Stratification2 == 'White']
+CA_hispanic <- heartdisease_CA[Stratification2 == 'Hispanic']
+CA_black <- heartdisease_CA[Stratification2 == 'Black']
+CA_asian_pacific <- heartdisease_CA[Stratification2 == 'Asian and Pacific Islander']
+CA_indian_alaskan <- heartdisease_CA[Stratification2 == 'American Indian and Alaskan Native']
+
+temp.pal <- colorNumeric(palette = "YlGnBu", domain = CA_race$Data_Value)
+
+map_race <- leaflet() %>% 
+  addProviderTiles('CartoDB.Positron') %>% 
+  addCircles(
+    data = CA_white,
+    lat = ~lat, lng=~lon,
+    label = CA_white$LocationDesc, color = ~ temp.pal(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = "White"
+    ) %>%
+  addCircles(
+    data = CA_hispanic,
+    lat = ~lat, lng=~lon,
+    label = CA_hispanic$LocationDesc, color = ~ temp.pal(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = "Hispanic"
+    ) %>%
+  addCircles(
+    data = CA_black,
+    lat = ~lat, lng=~lon,
+    label = CA_black$LocationDesc, color = ~ temp.pal(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = "Black"
+    ) %>%
+  addCircles(
+    data = CA_asian_pacific,
+    lat = ~lat, lng=~lon,
+    label = CA_asian_pacific$LocationDesc, color = ~ temp.pal(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = "Asian and Pacific Islander"
+    ) %>%
+  addCircles(
+    data = CA_indian_alaskan,
+    lat = ~lat, lng=~lon,
+    label = CA_indian_alaskan$LocationDesc, color = ~ temp.pal(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = "American Indian and Alaskan Native"
+    ) %>%
+  addCircles(
+    data = CA_overall,
+    lat = ~lat, lng=~lon,
+    label = CA_overall$LocationDesc, color = ~ temp.pal(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = "Overall"
+    ) %>%
+  addLayersControl(baseGroups = c("White", "Hispanic", "Black", "Asian and Pacific Islander", "American Indian and Alaskan Native", "Overall")) %>%
+  addLegend('bottomleft', pal=temp.pal, values=CA_race$Data_Value,
+          title='heart diseases death rate per 100,000 population based on gender in CA', opacity=1)
+map_race
+```
+
+## Conclusion
+#### (about what you found in terms of the formulated question)
+

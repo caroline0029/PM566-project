@@ -2,8 +2,11 @@
 title: "Midterm Project"
 author: "Caroline He"
 date: "10/19/2021"
-always_allow_html: yes
-output: github_document
+output:
+  github_document:
+    html_preview: false
+  html_document: default
+always_allow_html: true
 ---
 
 # PM566 Midterm Project

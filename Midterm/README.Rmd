@@ -3,7 +3,10 @@ title: "Midterm Project"
 author: "Caroline He"
 date: "10/19/2021"
 always_allow_html: yes
-output: github_document
+output:
+  github_document:
+    html_preview: false
+  html_document: default
 ---
 
 # PM566 Midterm Project
@@ -179,7 +182,7 @@ CA_race %>%
 
 The histogram of death rate for different race/ethnicity was constructed, and insufficient data was represented by 0. From the graph, both Hispanic and Asian and Pacific Islander seemed to be skewed to the left and had one modal. The White, Black and American Indian and Alaska Native seemed to have two modals. Among all races in CA during 2014, the Black had the highest heart disease death rate. The White and American Indian and Alaska Native were next and had similar distribution of death rate. The White seemed to have a slightly more right distribution. The Asian and Pacific Islander had a fourth highest heart disease death rate. The Hispanic had the lowest heart disease death rate. 
 
-```{r}
+```{r eval = knitr::is_html_output(exclude = "gfm")}
 # create subset of male and female
 CA_male <- heartdisease_CA[Stratification1 == 'Male']
 CA_female <- heartdisease_CA[Stratification1 == 'Female']

@@ -1,0 +1,2221 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Caroline0029" />
+
+
+<title>PM566 Final Project</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.0.4.1/leaflet-providers-plugin.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PM566 Final Project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">PM566 Final Project</h1>
+<h4 class="author">Caroline0029</h4>
+
+</div>
+
+
+<p>This is my PM566 Final Project website.</p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<div id="provide-background-on-your-dataset-and-formulated-question" class="section level4">
+<h4>(provide background on your dataset and formulated question)</h4>
+<div id="data-background" class="section level5">
+<h5>Data Background</h5>
+<p>This dataset was from National Vital Statistics System and focused on heart disease mortality data in US during 2014. The data was collected in county level. Here were the basic information of this dataset:</p>
+<ul>
+<li>2013 to 2015, 3-year average. Rates are age-standardized. County rates are spatially smoothed. The data can be viewed by gender and race/ethnicity. Data source: National Vital Statistics System. Additional data, maps, and methodology can be viewed on the Interactive Atlas of Heart Disease and Stroke <a href="http://www.cdc.gov/dhdsp/maps/atlas" class="uri">http://www.cdc.gov/dhdsp/maps/atlas</a></li>
+</ul>
+</div>
+<div id="main-question-how-gender-and-races-associate-with-heart-disease-death-rate-in-ca-during-2014" class="section level5">
+<h5>Main question: How gender and races associate with heart disease death rate in CA during 2014?</h5>
+<p>Sub-question</p>
+<ul>
+<li>what was the association between gender and heart disease death rate in California?</li>
+<li>what was the association between race and heart disease death rate in California?</li>
+<li>Which county had relatively higher heart disease death rate within gender stratification?</li>
+<li>which county had relatively higher heart disease death rate within race stratification?</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="methods" class="section level2">
+<h2>Methods</h2>
+<div id="include-how-and-where-the-data-were-acquired-how-you-cleaned-and-wrangled-the-data-what-tools-you-used-for-data-exploration" class="section level4">
+<h4>(include how and where the data were acquired, how you cleaned and wrangled the data, what tools you used for data exploration)</h4>
+<p>The data was obtained from CDC chronic disease and health promotion data &amp; indicators: <a href="https://chronicdata.cdc.gov/Heart-Disease-Stroke-Prevention/Heart-Disease-Mortality-Data-Among-US-Adults-35-by/i2vk-mgdh" class="uri">https://chronicdata.cdc.gov/Heart-Disease-Stroke-Prevention/Heart-Disease-Mortality-Data-Among-US-Adults-35-by/i2vk-mgdh</a></p>
+<p>Data variables included:</p>
+<ul>
+<li>Year: Center of 3-year average</li>
+<li>LocationAbbr: State, Territory, or US postal abbreviation</li>
+<li>LocationDesc: county name</li>
+<li>GeographicLevel: county/state</li>
+<li>DataSource</li>
+<li>Class: Cardiovascular Diseases</li>
+<li>Topic: Heart Disease Mortality</li>
+<li>Data_Value: heart disease death rate</li>
+<li>Data_Value_Unit: per 100,000 population</li>
+<li>Data_Value_Type: Age-adjusted, Spatially Smoothed, 3-year Average Rate</li>
+<li>Data_Value_Footnote_Symbol</li>
+<li>Data_Value_Footnote<br />
+</li>
+<li>StratificationCategory1: gender</li>
+<li>Stratification1: gender categories</li>
+<li>StratificationCategory2: race</li>
+<li>Stratification2: race categories (White, Black Hispanic, Asian and Pacific Islander, American Indian and Alaskan Native)</li>
+<li>TopicID<br />
+</li>
+<li>LocationID<br />
+</li>
+<li>FIPS code</li>
+<li>Location 1: lat&amp;lon</li>
+</ul>
+<pre class="r"><code>#library R packages
+library(gsubfn)</code></pre>
+<pre><code>## Loading required package: proto</code></pre>
+<pre><code>## Could not load tcltk.  Will use slower R code instead.</code></pre>
+<pre class="r"><code>library(data.table)
+library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(dtplyr)
+library(tidyr)
+library(readr)
+library(ggplot2)
+library(leaflet)
+library(sf)</code></pre>
+<pre><code>## Linking to GEOS 3.8.1, GDAL 3.2.1, PROJ 7.2.1</code></pre>
+<pre class="r"><code>library(raster)</code></pre>
+<pre><code>## Loading required package: sp</code></pre>
+<pre><code>## 
+## Attaching package: &#39;raster&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre><code>## The following object is masked from &#39;package:data.table&#39;:
+## 
+##     shift</code></pre>
+<pre class="r"><code># download and read in the data
+if (!file.exists(&quot;Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv&quot;)) {
+download.file(&quot;https://chronicdata.cdc.gov/api/views/i2vk-mgdh/rows.csv?accessType=DOWNLOAD&quot;, 
+              method=&quot;libcurl&quot;, 
+              timeout = 60
+              )
+}
+heartdisease &lt;- data.table::fread(&quot;Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv&quot;)</code></pre>
+<pre class="r"><code># check for head, tail and whether NAs exist
+knitr::kable(dim(heartdisease))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">59076</td>
+</tr>
+<tr class="even">
+<td align="right">19</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(head(heartdisease))</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="1%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="2%" />
+<col width="6%" />
+<col width="6%" />
+<col width="2%" />
+<col width="6%" />
+<col width="14%" />
+<col width="7%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="4%" />
+<col width="2%" />
+<col width="2%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Year</th>
+<th align="left">LocationAbbr</th>
+<th align="left">LocationDesc</th>
+<th align="left">GeographicLevel</th>
+<th align="left">DataSource</th>
+<th align="left">Class</th>
+<th align="left">Topic</th>
+<th align="right">Data_Value</th>
+<th align="left">Data_Value_Unit</th>
+<th align="left">Data_Value_Type</th>
+<th align="left">Data_Value_Footnote_Symbol</th>
+<th align="left">Data_Value_Footnote</th>
+<th align="left">StratificationCategory1</th>
+<th align="left">Stratification1</th>
+<th align="left">StratificationCategory2</th>
+<th align="left">Stratification2</th>
+<th align="left">TopicID</th>
+<th align="right">LocationID</th>
+<th align="left">Location 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">AK</td>
+<td align="left">Aleutians East</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">105.3</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">2013</td>
+<td align="left">(55.440626, -161.962562)</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">AK</td>
+<td align="left">Aleutians West</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">211.9</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">2016</td>
+<td align="left">(52.995403, -170.251538)</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">AK</td>
+<td align="left">Anchorage</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">257.9</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">2020</td>
+<td align="left">(61.159049, -149.103905)</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">AK</td>
+<td align="left">Bethel</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">351.6</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">2050</td>
+<td align="left">(60.924483, -159.749655)</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">AK</td>
+<td align="left">Bristol Bay</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">NA</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left">~</td>
+<td align="left">Insufficient Data</td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">2060</td>
+<td align="left">(58.754192, -156.694709)</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">AK</td>
+<td align="left">Denali</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">305.5</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">2068</td>
+<td align="left">(63.678399, -149.962076)</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(tail(heartdisease))</code></pre>
+<table>
+<colgroup>
+<col width="1%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="2%" />
+<col width="6%" />
+<col width="6%" />
+<col width="2%" />
+<col width="6%" />
+<col width="14%" />
+<col width="7%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="7%" />
+<col width="2%" />
+<col width="2%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Year</th>
+<th align="left">LocationAbbr</th>
+<th align="left">LocationDesc</th>
+<th align="left">GeographicLevel</th>
+<th align="left">DataSource</th>
+<th align="left">Class</th>
+<th align="left">Topic</th>
+<th align="right">Data_Value</th>
+<th align="left">Data_Value_Unit</th>
+<th align="left">Data_Value_Type</th>
+<th align="left">Data_Value_Footnote_Symbol</th>
+<th align="left">Data_Value_Footnote</th>
+<th align="left">StratificationCategory1</th>
+<th align="left">Stratification1</th>
+<th align="left">StratificationCategory2</th>
+<th align="left">Stratification2</th>
+<th align="left">TopicID</th>
+<th align="right">LocationID</th>
+<th align="left">Location 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">AK</td>
+<td align="left">Denali</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">NA</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left">~</td>
+<td align="left">Insufficient Data</td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Black</td>
+<td align="left">T2</td>
+<td align="right">2068</td>
+<td align="left">(63.678399, -149.962076)</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">TX</td>
+<td align="left">Lubbock County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">NA</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left">~</td>
+<td align="left">Insufficient Data</td>
+<td align="left">Gender</td>
+<td align="left">Male</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Asian and Pacific Islander</td>
+<td align="left">T2</td>
+<td align="right">48303</td>
+<td align="left">(33.613697, -101.820878)</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">TX</td>
+<td align="left">Mitchell County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">NA</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left">~</td>
+<td align="left">Insufficient Data</td>
+<td align="left">Gender</td>
+<td align="left">Male</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Black</td>
+<td align="left">T2</td>
+<td align="right">48335</td>
+<td align="left">(32.306972, -100.919542)</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">IA</td>
+<td align="left">Winnebago County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">NA</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left">~</td>
+<td align="left">Insufficient Data</td>
+<td align="left">Gender</td>
+<td align="left">Female</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Asian and Pacific Islander</td>
+<td align="left">T2</td>
+<td align="right">19189</td>
+<td align="left">(43.375754, -93.73907)</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">WV</td>
+<td align="left">Lewis County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">NA</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left">~</td>
+<td align="left">Insufficient Data</td>
+<td align="left">Gender</td>
+<td align="left">Female</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Asian and Pacific Islander</td>
+<td align="left">T2</td>
+<td align="right">54041</td>
+<td align="left">(38.995666, -80.505332)</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">KS</td>
+<td align="left">Republic County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">NA</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left">~</td>
+<td align="left">Insufficient Data</td>
+<td align="left">Gender</td>
+<td align="left">Female</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Asian and Pacific Islander</td>
+<td align="left">T2</td>
+<td align="right">20157</td>
+<td align="left">(39.82459, -97.646162)</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(summary(is.na(heartdisease)))</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="0%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="5%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="8%" />
+<col width="6%" />
+<col width="7%" />
+<col width="5%" />
+<col width="7%" />
+<col width="5%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Year</th>
+<th align="left">LocationAbbr</th>
+<th align="left">LocationDesc</th>
+<th align="left">GeographicLevel</th>
+<th align="left">DataSource</th>
+<th align="left">Class</th>
+<th align="left">Topic</th>
+<th align="left">Data_Value</th>
+<th align="left">Data_Value_Unit</th>
+<th align="left">Data_Value_Type</th>
+<th align="left">Data_Value_Footnote_Symbol</th>
+<th align="left">Data_Value_Footnote</th>
+<th align="left">StratificationCategory1</th>
+<th align="left">Stratification1</th>
+<th align="left">StratificationCategory2</th>
+<th align="left">Stratification2</th>
+<th align="left">TopicID</th>
+<th align="left">LocationID</th>
+<th align="left">Location 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:32149</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">TRUE :26927</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+<p>Based on the summary table, only Data_Value contained NAs which referred to insufficient data. I decided to replace NAs by 0 for later convenience.</p>
+<pre class="r"><code>#remove NAs
+heartdisease$Data_Value &lt;- heartdisease$Data_Value %&gt;% replace_na(0)
+knitr::kable(summary(is.na(heartdisease)))</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="0%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="5%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="8%" />
+<col width="6%" />
+<col width="7%" />
+<col width="5%" />
+<col width="7%" />
+<col width="5%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Year</th>
+<th align="left">LocationAbbr</th>
+<th align="left">LocationDesc</th>
+<th align="left">GeographicLevel</th>
+<th align="left">DataSource</th>
+<th align="left">Class</th>
+<th align="left">Topic</th>
+<th align="left">Data_Value</th>
+<th align="left">Data_Value_Unit</th>
+<th align="left">Data_Value_Type</th>
+<th align="left">Data_Value_Footnote_Symbol</th>
+<th align="left">Data_Value_Footnote</th>
+<th align="left">StratificationCategory1</th>
+<th align="left">Stratification1</th>
+<th align="left">StratificationCategory2</th>
+<th align="left">Stratification2</th>
+<th align="left">TopicID</th>
+<th align="left">LocationID</th>
+<th align="left">Location 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+<td align="left">Mode :logical</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+<td align="left">FALSE:59076</td>
+</tr>
+</tbody>
+</table>
+<p>The summary table indicated that there were no NAs anymore.</p>
+<p>Based on the main question, California data was selected</p>
+<pre class="r"><code># selec data in California
+heartdisease_CA &lt;- heartdisease[LocationAbbr == &#39;CA&#39; &amp; GeographicLevel == &#39;County&#39;]
+knitr::kable(head(heartdisease_CA))</code></pre>
+<table>
+<colgroup>
+<col width="1%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="2%" />
+<col width="6%" />
+<col width="6%" />
+<col width="2%" />
+<col width="6%" />
+<col width="14%" />
+<col width="7%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="4%" />
+<col width="2%" />
+<col width="2%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Year</th>
+<th align="left">LocationAbbr</th>
+<th align="left">LocationDesc</th>
+<th align="left">GeographicLevel</th>
+<th align="left">DataSource</th>
+<th align="left">Class</th>
+<th align="left">Topic</th>
+<th align="right">Data_Value</th>
+<th align="left">Data_Value_Unit</th>
+<th align="left">Data_Value_Type</th>
+<th align="left">Data_Value_Footnote_Symbol</th>
+<th align="left">Data_Value_Footnote</th>
+<th align="left">StratificationCategory1</th>
+<th align="left">Stratification1</th>
+<th align="left">StratificationCategory2</th>
+<th align="left">Stratification2</th>
+<th align="left">TopicID</th>
+<th align="right">LocationID</th>
+<th align="left">Location 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Alameda County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">225.6</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6001</td>
+<td align="left">(37.640732, -121.874174)</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Alpine County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">286.3</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6003</td>
+<td align="left">(38.596494, -119.817775)</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Amador County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">312.7</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6005</td>
+<td align="left">(38.441847, -120.650063)</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Butte County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">335.6</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6007</td>
+<td align="left">(39.663077, -121.592018)</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Calaveras County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">343.2</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6009</td>
+<td align="left">(38.202946, -120.544084)</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Colusa County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">309.2</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6011</td>
+<td align="left">(39.178048, -122.229505)</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(dim(heartdisease_CA))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1044</td>
+</tr>
+<tr class="even">
+<td align="right">19</td>
+</tr>
+</tbody>
+</table>
+<p>The Location 1 contained latitude and longitude information in one column, it would efficient to separate them into two columns.</p>
+<pre class="r"><code># remove &quot;()&quot; in strings
+heartdisease_CA$`Location 1` &lt;- gsub(&quot;[()]&quot;, &quot;&quot;, heartdisease_CA$`Location 1`)
+# separate lat and lon variables
+heartdisease_CA &lt;- heartdisease_CA %&gt;%
+  separate(col = &#39;Location 1&#39;, into=c(&#39;lat&#39;, &#39;lon&#39;), sep=&#39;,&#39;)</code></pre>
+<p>Convert Data_Value, lat, lon into num class</p>
+<pre class="r"><code># convert chr to num
+heartdisease_CA$Data_Value &lt;- as.numeric(heartdisease_CA$Data_Value)
+heartdisease_CA$lat &lt;- as.numeric(heartdisease_CA$lat)
+heartdisease_CA$lon &lt;- as.numeric(heartdisease_CA$lon)
+knitr::kable(head(heartdisease_CA))</code></pre>
+<table>
+<colgroup>
+<col width="1%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="3%" />
+<col width="6%" />
+<col width="6%" />
+<col width="3%" />
+<col width="6%" />
+<col width="14%" />
+<col width="7%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="4%" />
+<col width="2%" />
+<col width="3%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Year</th>
+<th align="left">LocationAbbr</th>
+<th align="left">LocationDesc</th>
+<th align="left">GeographicLevel</th>
+<th align="left">DataSource</th>
+<th align="left">Class</th>
+<th align="left">Topic</th>
+<th align="right">Data_Value</th>
+<th align="left">Data_Value_Unit</th>
+<th align="left">Data_Value_Type</th>
+<th align="left">Data_Value_Footnote_Symbol</th>
+<th align="left">Data_Value_Footnote</th>
+<th align="left">StratificationCategory1</th>
+<th align="left">Stratification1</th>
+<th align="left">StratificationCategory2</th>
+<th align="left">Stratification2</th>
+<th align="left">TopicID</th>
+<th align="right">LocationID</th>
+<th align="right">lat</th>
+<th align="right">lon</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Alameda County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">225.6</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6001</td>
+<td align="right">37.64073</td>
+<td align="right">-121.8742</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Alpine County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">286.3</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6003</td>
+<td align="right">38.59649</td>
+<td align="right">-119.8178</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Amador County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">312.7</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6005</td>
+<td align="right">38.44185</td>
+<td align="right">-120.6501</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Butte County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">335.6</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6007</td>
+<td align="right">39.66308</td>
+<td align="right">-121.5920</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Calaveras County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">343.2</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6009</td>
+<td align="right">38.20295</td>
+<td align="right">-120.5441</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Colusa County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">309.2</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6011</td>
+<td align="right">39.17805</td>
+<td align="right">-122.2295</td>
+</tr>
+</tbody>
+</table>
+<p>CA_gender contained the heart disease mortality data based on gender category. CA_race contained the heart disease mortality data based on race category. CA_overall contained the data without any stratification.</p>
+<pre class="r"><code># select data under each stratification
+CA_gender &lt;- heartdisease_CA[Stratification1 != &#39;Overall&#39; &amp; Stratification2 == &#39;Overall&#39;]
+knitr::kable(dim(CA_gender))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">116</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(head(CA_gender))</code></pre>
+<table>
+<colgroup>
+<col width="1%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="3%" />
+<col width="6%" />
+<col width="6%" />
+<col width="3%" />
+<col width="6%" />
+<col width="14%" />
+<col width="7%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="4%" />
+<col width="2%" />
+<col width="3%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Year</th>
+<th align="left">LocationAbbr</th>
+<th align="left">LocationDesc</th>
+<th align="left">GeographicLevel</th>
+<th align="left">DataSource</th>
+<th align="left">Class</th>
+<th align="left">Topic</th>
+<th align="right">Data_Value</th>
+<th align="left">Data_Value_Unit</th>
+<th align="left">Data_Value_Type</th>
+<th align="left">Data_Value_Footnote_Symbol</th>
+<th align="left">Data_Value_Footnote</th>
+<th align="left">StratificationCategory1</th>
+<th align="left">Stratification1</th>
+<th align="left">StratificationCategory2</th>
+<th align="left">Stratification2</th>
+<th align="left">TopicID</th>
+<th align="right">LocationID</th>
+<th align="right">lat</th>
+<th align="right">lon</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Alameda County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">295.7</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Male</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6001</td>
+<td align="right">37.64073</td>
+<td align="right">-121.8742</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Alpine County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">374.5</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Male</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6003</td>
+<td align="right">38.59649</td>
+<td align="right">-119.8178</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Amador County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">408.0</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Male</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6005</td>
+<td align="right">38.44185</td>
+<td align="right">-120.6501</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Butte County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">450.5</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Male</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6007</td>
+<td align="right">39.66308</td>
+<td align="right">-121.5920</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Calaveras County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">436.7</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Male</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6009</td>
+<td align="right">38.20295</td>
+<td align="right">-120.5441</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Colusa County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">401.4</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Male</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6011</td>
+<td align="right">39.17805</td>
+<td align="right">-122.2295</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>CA_race &lt;- heartdisease_CA[Stratification2 != &#39;Overall&#39; &amp; Stratification1 == &#39;Overall&#39;]
+knitr::kable(head(CA_race))</code></pre>
+<table>
+<colgroup>
+<col width="1%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="3%" />
+<col width="6%" />
+<col width="6%" />
+<col width="3%" />
+<col width="6%" />
+<col width="14%" />
+<col width="7%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="4%" />
+<col width="2%" />
+<col width="3%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Year</th>
+<th align="left">LocationAbbr</th>
+<th align="left">LocationDesc</th>
+<th align="left">GeographicLevel</th>
+<th align="left">DataSource</th>
+<th align="left">Class</th>
+<th align="left">Topic</th>
+<th align="right">Data_Value</th>
+<th align="left">Data_Value_Unit</th>
+<th align="left">Data_Value_Type</th>
+<th align="left">Data_Value_Footnote_Symbol</th>
+<th align="left">Data_Value_Footnote</th>
+<th align="left">StratificationCategory1</th>
+<th align="left">Stratification1</th>
+<th align="left">StratificationCategory2</th>
+<th align="left">Stratification2</th>
+<th align="left">TopicID</th>
+<th align="right">LocationID</th>
+<th align="right">lat</th>
+<th align="right">lon</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Alameda County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">257.9</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">White</td>
+<td align="left">T2</td>
+<td align="right">6001</td>
+<td align="right">37.64073</td>
+<td align="right">-121.8742</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Alpine County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">295.4</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">White</td>
+<td align="left">T2</td>
+<td align="right">6003</td>
+<td align="right">38.59649</td>
+<td align="right">-119.8178</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Amador County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">322.2</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">White</td>
+<td align="left">T2</td>
+<td align="right">6005</td>
+<td align="right">38.44185</td>
+<td align="right">-120.6501</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Butte County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">348.8</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">White</td>
+<td align="left">T2</td>
+<td align="right">6007</td>
+<td align="right">39.66308</td>
+<td align="right">-121.5920</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Calaveras County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">356.4</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">White</td>
+<td align="left">T2</td>
+<td align="right">6009</td>
+<td align="right">38.20295</td>
+<td align="right">-120.5441</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Colusa County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">358.2</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">White</td>
+<td align="left">T2</td>
+<td align="right">6011</td>
+<td align="right">39.17805</td>
+<td align="right">-122.2295</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(dim(CA_race))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">290</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>CA_overall &lt;- heartdisease_CA[Stratification1 == &#39;Overall&#39; &amp; Stratification2 == &#39;Overall&#39;]
+knitr::kable(head(CA_overall))</code></pre>
+<table>
+<colgroup>
+<col width="1%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="3%" />
+<col width="6%" />
+<col width="6%" />
+<col width="3%" />
+<col width="6%" />
+<col width="14%" />
+<col width="7%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="4%" />
+<col width="2%" />
+<col width="3%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Year</th>
+<th align="left">LocationAbbr</th>
+<th align="left">LocationDesc</th>
+<th align="left">GeographicLevel</th>
+<th align="left">DataSource</th>
+<th align="left">Class</th>
+<th align="left">Topic</th>
+<th align="right">Data_Value</th>
+<th align="left">Data_Value_Unit</th>
+<th align="left">Data_Value_Type</th>
+<th align="left">Data_Value_Footnote_Symbol</th>
+<th align="left">Data_Value_Footnote</th>
+<th align="left">StratificationCategory1</th>
+<th align="left">Stratification1</th>
+<th align="left">StratificationCategory2</th>
+<th align="left">Stratification2</th>
+<th align="left">TopicID</th>
+<th align="right">LocationID</th>
+<th align="right">lat</th>
+<th align="right">lon</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Alameda County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">225.6</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6001</td>
+<td align="right">37.64073</td>
+<td align="right">-121.8742</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Alpine County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">286.3</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6003</td>
+<td align="right">38.59649</td>
+<td align="right">-119.8178</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Amador County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">312.7</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6005</td>
+<td align="right">38.44185</td>
+<td align="right">-120.6501</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Butte County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">335.6</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6007</td>
+<td align="right">39.66308</td>
+<td align="right">-121.5920</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Calaveras County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">343.2</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6009</td>
+<td align="right">38.20295</td>
+<td align="right">-120.5441</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="left">CA</td>
+<td align="left">Colusa County</td>
+<td align="left">County</td>
+<td align="left">NVSS</td>
+<td align="left">Cardiovascular Diseases</td>
+<td align="left">Heart Disease Mortality</td>
+<td align="right">309.2</td>
+<td align="left">per 100,000 population</td>
+<td align="left">Age-adjusted, Spatially Smoothed, 3-year Average Rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Gender</td>
+<td align="left">Overall</td>
+<td align="left">Race/Ethnicity</td>
+<td align="left">Overall</td>
+<td align="left">T2</td>
+<td align="right">6011</td>
+<td align="right">39.17805</td>
+<td align="right">-122.2295</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(dim(CA_overall))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">58</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+</tr>
+</tbody>
+</table>
+<p>Since there were 58 counties in CA in total, the dataset seemed to be reasonable.</p>
+</div>
+</div>
+<div id="preliminary-results" class="section level2">
+<h2>Preliminary Results</h2>
+<div id="provide-summary-statistics-in-tabular-form-and-publication-quality-figures-take-a-look-at-the-kable-function-from-knitr-to-write-nice-tables-in-rmarkdown" class="section level4">
+<h4>(provide summary statistics in tabular form and publication-quality figures, take a look at the kable function from knitr to write nice tables in Rmarkdown)</h4>
+<pre class="r"><code># create histogram to find association between gender and death rate
+CA_gender %&gt;%
+    ggplot(mapping = aes(x = Data_Value)) + 
+    geom_histogram(mapping = aes (fill = Stratification1)) +
+    scale_fill_brewer(palette = &quot;BuPu&quot;) +
+    labs(
+      x = &quot;death rate per 100,000 population&quot;,
+      y = &quot;Count&quot;,
+      title = &quot;Histogram of death rate by gender in CA&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>The histogram of death rate for both male and female was constructed, and insufficient data was represented by 0. From the graph, distributions of heart disease death rate for both male and female were slightly skewed to the left. However, the distribution of female located more left compared to the distribution of male, and only a small portion overlapped. It indicated that the female had a lower heart disease death rate compared to the male in general in CA during 2014.</p>
+<pre class="r"><code># create histogram to find association between race and death rate
+CA_race %&gt;%
+    ggplot(mapping = aes(x = Data_Value)) + 
+    geom_histogram(mapping = aes (fill = Stratification2)) +
+    scale_fill_brewer(palette = &quot;BuPu&quot;) +
+    labs(
+      x = &quot;death rate per 100,000 population&quot;,
+      y = &quot;Count&quot;,
+      title = &quot;Histogram of death rate by race in CA&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>The histogram of death rate for different race/ethnicity was constructed, and insufficient data was represented by 0. From the graph, both Hispanic and Asian and Pacific Islander seemed to be skewed to the left and had one modal. The White, Black and American Indian and Alaska Native seemed to have two modals. Among all races in CA during 2014, the Black had the highest heart disease death rate. The White and American Indian and Alaska Native were next and had similar distribution of death rate. The White seemed to have a slightly more right distribution. The Asian and Pacific Islander had a fourth highest heart disease death rate. The Hispanic had the lowest heart disease death rate.</p>
+<pre class="r"><code># create subset of male and female
+CA_male &lt;- heartdisease_CA[Stratification1 == &#39;Male&#39;]
+CA_female &lt;- heartdisease_CA[Stratification1 == &#39;Female&#39;]
+
+temp.pal1 &lt;- colorNumeric(palette = &quot;YlGnBu&quot;, domain = CA_male$Data_Value, na.color = &quot;#808080&quot;)
+# visualize by leaflet
+map_gender &lt;- leaflet() %&gt;% 
+  addProviderTiles(&#39;CartoDB.Positron&#39;) %&gt;% 
+  addCircles(
+    data = CA_male,
+    lat = ~lat, lng=~lon,
+    label = CA_male$LocationDesc, color = ~ temp.pal1(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = &quot;Male&quot;
+    ) %&gt;%
+  addCircles(
+    data = CA_female,
+    lat = ~lat, lng=~lon,
+    label = CA_female$LocationDesc, color = ~ temp.pal1(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = &quot;Female&quot;
+    ) %&gt;%
+  addCircles(
+    data = CA_overall,
+    lat = ~lat, lng=~lon,
+    label = CA_overall$LocationDesc, color = ~ temp.pal1(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = &quot;Overall&quot;
+    ) %&gt;%
+  addLayersControl(baseGroups = c(&quot;Male&quot;, &quot;Famle&quot;, &quot;Overall&quot;)) %&gt;%
+  addLegend(&#39;bottomleft&#39;, pal=temp.pal1, values=CA_male$Data_Value,
+          title=&#39;heart diseases death rate per 100,000 population based on gender in CA&#39;, opacity=1)
+map_gender</code></pre>
+<div id="htmlwidget-756c9413067d24c7c781" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-756c9413067d24c7c781">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircles","args":[[37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,39.576693,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.746542,37.933321,37.212682,37.186923,37.913598,38.68661,39.295924,37.224522,40.758306,41.738952,39.033545,38.073204,36.078649,37.423939,35.345591,34.322796,33.041824,40.698187,38.527617,39.663077,38.596494,33.035423,38.596494,37.640732,40.669961,34.844701,36.220455,38.508289,33.745425,40.698187,38.024398,40.64749,37.052057,41.588337,39.061511,37.553933,40.758306,41.583941,33.704545,34.472949,36.754708,38.465312,37.575843,38.441847,35.390034,39.268646,39.597469,36.508867,38.775788,39.178048,38.202946,36.216903,39.576693,34.672496,40.002158,39.436309,39.09737,37.932727,36.605701,40.12057,38.288602,41.588337],[-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-120.505271,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-122.430647,-118.882552,-119.74733,-120.704731,-121.912906,-121.897776,-120.761996,-121.684758,-122.03692,-123.889508,-121.687339,-122.720114,-119.803263,-122.322358,-118.73308,-118.221787,-115.364568,-123.863888,-122.887364,-121.592018,-119.817775,-116.737646,-119.817775,-121.874174,-120.589843,-116.176459,-118.792225,-122.327344,-115.994935,-123.863888,-119.946028,-123.104847,-121.982295,-122.533844,-120.710638,-120.989631,-122.03692,-120.718904,-117.756775,-119.076397,-119.641323,-121.31769,-119.896002,-120.650063,-120.400968,-121.340045,-122.383535,-117.407146,-120.518515,-122.229505,-120.544084,-121.227026,-120.505271,-120.012285,-120.838191,-123.377828,-122.744185,-121.264123,-121.060133,-122.226655,-121.913023,-122.533844],500,null,"Male",{"interactive":true,"className":"","stroke":true,"color":["#94D4B9","#67C2BF","#53BBC2","#3DB0C3","#40B5C4","#57BDC1","#97D5B9","#3CAFC3","#7BCBBC","#55BCC2","#47B8C3","#40B5C4","#59BDC1","#56BCC2","#36A7C2","#69C3BF","#37A8C3","#39ABC3","#63C1C0","#56BCC2","#AADDB7","#4CB9C3","#53BBC2","#59BDC1","#3DB1C4","#74C8BD","#97D5B9","#71C7BE","#9BD7B9","#7BCBBC","#7BCBBC","#3BAEC3","#57BCC2","#54BBC2","#7DCCBB","#40B4C4","#78CABC","#A4DBB8","#4CB9C3","#93D4B9","#94D4B9","#78CABC","#ACDEB7","#83CEBB","#3CAFC3","#5EBFC1","#3FB3C4","#84CFBB","#7ECDBB","#38A9C3","#4DB9C3","#3FB4C4","#3EB2C4","#3DB1C3","#54BBC2","#7BCBBC","#77C9BC","#2C9DC1","#77C9BD","#61C0C0","#48B8C3","#36A7C3","#39ABC3","#38A9C3","#8BD1BA","#3BADC3","#76C9BD","#38AAC3","#39AAC3","#3EB1C4","#1F8BBD","#37A9C3","#1E92C0","#40B5C4","#35A6C2","#32A2C2","#3EB2C4","#3CAEC3","#A2DAB8","#3BAEC3","#45B7C4","#35A6C2","#38AAC3","#6DC5BE","#7DCCBB","#5CBEC1","#9BD7B9","#5EBFC1","#7BCBBC","#38A9C3","#3DB0C3","#3EB2C4","#71C6BE","#2597C1","#6BC4BF","#7DCCBB","#35A6C2","#8BD1BA","#7FCDBB","#6FC6BE","#85CFBB","#80CDBB","#39ABC3","#5CBEC1","#3BAEC3","#73C8BD","#77C9BD","#2294C0","#35A6C2","#3AACC3","#3BAEC3","#1D90C0","#42B6C4","#69C3BF","#5DBFC1","#2187BB","#41B5C4","#FFFFD9","#75C8BD","#2185BA","#38A9C3","#41B6C4","#FFFFD9","#65C1C0","#2194C0","#35A6C2","#3BADC3","#2184BA","#236DAF","#3FB3C4","#3CAEC3","#4BB9C3","#2370B1","#236CAF","#7DCCBB","#2088BC","#3EB2C4","#1F8DBE","#51BAC2","#299AC1","#87D0BA","#50BAC2","#45B7C4","#40B5C4","#3DB1C3","#58BDC1","#34A5C2","#30A1C2","#48B8C3","#1E91C0","#3BAEC3","#3DB1C4","#2899C1","#CFECB3","#4DB9C3","#2552A2","#57BCC2","#67C3BF","#39ABC3","#42B6C4","#5CBEC1","#2F9FC2","#3CAFC3","#79CABC","#FFFFD9","#2377B4","#76C9BD","#1F8BBD","#37A9C3","#63C1C0","#BDE5B5","#D3EEB3","#95D5B9","#B4E1B6","#89D0BA","#CBEAB4","#C2E7B5","#2261A9","#C2E7B5","#91D3BA","#A9DCB7","#68C3BF","#8FD2BA","#91D3BA","#77C9BD","#90D3BA","#C9EAB4","#7DCCBB","#97D6B9","#9DD8B8","#CFECB3","#92D4B9","#B5E1B6","#A8DCB7","#A3DAB8","#A2DAB8","#C6E9B4","#CBEBB4","#A0D9B8","#AEDFB7","#78CABC","#84CFBB","#9CD7B9","#A0D9B8","#A5DBB8","#93D4B9","#A9DCB7","#BEE5B5","#8AD1BA","#CEECB3","#BCE4B5","#B3E1B6","#BAE3B6","#BDE5B5","#6EC5BE","#A6DBB8","#95D5B9","#C6E8B4","#CDEBB4","#8DD2BA","#ADDEB7","#96D5B9","#79CABC","#8BD1BA","#A0D9B8","#AEDEB7","#BEE5B5","#90D3BA","#31A2C2","#FFFFD9","#40B5C4","#69C3BF","#1F8CBE","#227EB7","#A6DBB8","#32A3C2","#A9DDB7","#71C7BE","#3AACC3","#1F8BBD","#33A3C2","#3CAEC3","#4FBAC3","#60C0C0","#236EB0","#227EB7","#6FC6BE","#76C9BD","#FFFFD9","#ABDDB7","#1F92C0","#54BCC2","#1E90BF","#70C6BE","#91D3BA","#46B7C4","#39ABC3","#60C0C0","#081D58","#4EBAC3","#3EB1C4","#2294C0","#62C1C0","#32A2C2","#55BCC2","#FFFFD9","#7ACBBC","#5ABEC1","#FFFFD9","#56BCC2","#95D5B9","#8BD1BA","#35A6C2","#3AACC3","#34A5C2","#3DB0C3","#42B6C4","#AFDFB7","#2697C1","#39AAC3","#2185BB","#59BDC1","#99D6B9","#76C9BD","#30A0C2","#9CD8B9","#D0ECB3","#8FD3BA","#99D6B9","#CAEAB4","#CEECB4","#D9F0B3","#B5E1B6","#DDF2B2","#FFFFD9","#FFFFD9","#9FD9B8","#E0F3B2","#98D6B9","#B6E2B6","#ABDDB7","#B4E1B6","#C7E9B4","#FFFFD9","#B1E0B6","#8ED2BA","#FFFFD9","#CAEAB4","#FFFFD9","#D3EEB3","#A8DCB7","#AFDFB7","#7ACBBC","#CBEBB4","#C9EAB4","#FFFFD9","#7ECCBB","#FFFFD9","#C4E8B4","#B7E2B6","#A4DBB8","#93D4B9","#FFFFD9","#ADDEB7","#CEECB4","#B5E1B6","#91D3BA","#A4DBB8","#92D4B9","#A2DAB8","#A1D9B8","#A6DBB8","#DFF2B2","#97D6B9","#A5DBB8","#ABDDB7","#94D4B9","#9BD7B9","#B0DFB7","#AEDFB7","#FFFFD9","#D5EFB3","#FFFFD9","#A3DAB8","#D1EDB3","#ADDEB7","#C1E6B5","#FFFFD9"],"weight":5,"opacity":1,"fill":true,"fillColor":["#94D4B9","#67C2BF","#53BBC2","#3DB0C3","#40B5C4","#57BDC1","#97D5B9","#3CAFC3","#7BCBBC","#55BCC2","#47B8C3","#40B5C4","#59BDC1","#56BCC2","#36A7C2","#69C3BF","#37A8C3","#39ABC3","#63C1C0","#56BCC2","#AADDB7","#4CB9C3","#53BBC2","#59BDC1","#3DB1C4","#74C8BD","#97D5B9","#71C7BE","#9BD7B9","#7BCBBC","#7BCBBC","#3BAEC3","#57BCC2","#54BBC2","#7DCCBB","#40B4C4","#78CABC","#A4DBB8","#4CB9C3","#93D4B9","#94D4B9","#78CABC","#ACDEB7","#83CEBB","#3CAFC3","#5EBFC1","#3FB3C4","#84CFBB","#7ECDBB","#38A9C3","#4DB9C3","#3FB4C4","#3EB2C4","#3DB1C3","#54BBC2","#7BCBBC","#77C9BC","#2C9DC1","#77C9BD","#61C0C0","#48B8C3","#36A7C3","#39ABC3","#38A9C3","#8BD1BA","#3BADC3","#76C9BD","#38AAC3","#39AAC3","#3EB1C4","#1F8BBD","#37A9C3","#1E92C0","#40B5C4","#35A6C2","#32A2C2","#3EB2C4","#3CAEC3","#A2DAB8","#3BAEC3","#45B7C4","#35A6C2","#38AAC3","#6DC5BE","#7DCCBB","#5CBEC1","#9BD7B9","#5EBFC1","#7BCBBC","#38A9C3","#3DB0C3","#3EB2C4","#71C6BE","#2597C1","#6BC4BF","#7DCCBB","#35A6C2","#8BD1BA","#7FCDBB","#6FC6BE","#85CFBB","#80CDBB","#39ABC3","#5CBEC1","#3BAEC3","#73C8BD","#77C9BD","#2294C0","#35A6C2","#3AACC3","#3BAEC3","#1D90C0","#42B6C4","#69C3BF","#5DBFC1","#2187BB","#41B5C4","#FFFFD9","#75C8BD","#2185BA","#38A9C3","#41B6C4","#FFFFD9","#65C1C0","#2194C0","#35A6C2","#3BADC3","#2184BA","#236DAF","#3FB3C4","#3CAEC3","#4BB9C3","#2370B1","#236CAF","#7DCCBB","#2088BC","#3EB2C4","#1F8DBE","#51BAC2","#299AC1","#87D0BA","#50BAC2","#45B7C4","#40B5C4","#3DB1C3","#58BDC1","#34A5C2","#30A1C2","#48B8C3","#1E91C0","#3BAEC3","#3DB1C4","#2899C1","#CFECB3","#4DB9C3","#2552A2","#57BCC2","#67C3BF","#39ABC3","#42B6C4","#5CBEC1","#2F9FC2","#3CAFC3","#79CABC","#FFFFD9","#2377B4","#76C9BD","#1F8BBD","#37A9C3","#63C1C0","#BDE5B5","#D3EEB3","#95D5B9","#B4E1B6","#89D0BA","#CBEAB4","#C2E7B5","#2261A9","#C2E7B5","#91D3BA","#A9DCB7","#68C3BF","#8FD2BA","#91D3BA","#77C9BD","#90D3BA","#C9EAB4","#7DCCBB","#97D6B9","#9DD8B8","#CFECB3","#92D4B9","#B5E1B6","#A8DCB7","#A3DAB8","#A2DAB8","#C6E9B4","#CBEBB4","#A0D9B8","#AEDFB7","#78CABC","#84CFBB","#9CD7B9","#A0D9B8","#A5DBB8","#93D4B9","#A9DCB7","#BEE5B5","#8AD1BA","#CEECB3","#BCE4B5","#B3E1B6","#BAE3B6","#BDE5B5","#6EC5BE","#A6DBB8","#95D5B9","#C6E8B4","#CDEBB4","#8DD2BA","#ADDEB7","#96D5B9","#79CABC","#8BD1BA","#A0D9B8","#AEDEB7","#BEE5B5","#90D3BA","#31A2C2","#FFFFD9","#40B5C4","#69C3BF","#1F8CBE","#227EB7","#A6DBB8","#32A3C2","#A9DDB7","#71C7BE","#3AACC3","#1F8BBD","#33A3C2","#3CAEC3","#4FBAC3","#60C0C0","#236EB0","#227EB7","#6FC6BE","#76C9BD","#FFFFD9","#ABDDB7","#1F92C0","#54BCC2","#1E90BF","#70C6BE","#91D3BA","#46B7C4","#39ABC3","#60C0C0","#081D58","#4EBAC3","#3EB1C4","#2294C0","#62C1C0","#32A2C2","#55BCC2","#FFFFD9","#7ACBBC","#5ABEC1","#FFFFD9","#56BCC2","#95D5B9","#8BD1BA","#35A6C2","#3AACC3","#34A5C2","#3DB0C3","#42B6C4","#AFDFB7","#2697C1","#39AAC3","#2185BB","#59BDC1","#99D6B9","#76C9BD","#30A0C2","#9CD8B9","#D0ECB3","#8FD3BA","#99D6B9","#CAEAB4","#CEECB4","#D9F0B3","#B5E1B6","#DDF2B2","#FFFFD9","#FFFFD9","#9FD9B8","#E0F3B2","#98D6B9","#B6E2B6","#ABDDB7","#B4E1B6","#C7E9B4","#FFFFD9","#B1E0B6","#8ED2BA","#FFFFD9","#CAEAB4","#FFFFD9","#D3EEB3","#A8DCB7","#AFDFB7","#7ACBBC","#CBEBB4","#C9EAB4","#FFFFD9","#7ECCBB","#FFFFD9","#C4E8B4","#B7E2B6","#A4DBB8","#93D4B9","#FFFFD9","#ADDEB7","#CEECB4","#B5E1B6","#91D3BA","#A4DBB8","#92D4B9","#A2DAB8","#A1D9B8","#A6DBB8","#DFF2B2","#97D6B9","#A5DBB8","#ABDDB7","#94D4B9","#9BD7B9","#B0DFB7","#AEDFB7","#FFFFD9","#D5EFB3","#FFFFD9","#A3DAB8","#D1EDB3","#ADDEB7","#C1E6B5","#FFFFD9"],"fillOpacity":1},null,null,["Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Sierra County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","San Francisco County","Mono County","Madera County","Merced County","Contra Costa County","Yolo County","Nevada County","Santa Clara County","Shasta County","Del Norte County","Sutter County","Marin County","Kings County","San Mateo County","Kern County","Los Angeles County","Imperial County","Humboldt County","Sonoma County","Butte County","Alpine County","San Diego County","Alpine County","Alameda County","Lassen County","San Bernardino County","Tulare County","Napa County","Riverside County","Humboldt County","Tuolumne County","Trinity County","Santa Cruz County","Siskiyou County","Placer County","Stanislaus County","Shasta County","Modoc County","Orange County","Ventura County","Fresno County","Sacramento County","Mariposa County","Amador County","San Luis Obispo County","Yuba County","Glenn County","Inyo County","El Dorado County","Colusa County","Calaveras County","Monterey County","Sierra County","Santa Barbara County","Plumas County","Mendocino County","Lake County","San Joaquin County","San Benito County","Tehama County","Solano County","Siskiyou County"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[[37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,34.672496,37.224522,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.663077,37.575843,40.12057,37.186923,36.508867,38.073204,36.216903,39.295924,35.390034,37.933321,37.640732,38.465312,39.09737,34.472949,38.527617,41.583941,37.423939,39.061511,41.738952,36.078649,37.913598,40.758306,37.423939,39.268646,33.035423,37.553933,34.672496,33.745425,36.605701,38.288602,37.746542,37.052057,33.704545,33.041824,40.669961,38.775788,39.178048,36.220455,38.68661,40.698187,40.64749,41.588337,36.754708,39.663077,40.002158,34.844701,39.033545,37.052057,39.663077,38.441847,39.597469,35.345591,39.436309,37.224522,38.596494,37.212682,39.576693,38.024398,38.508289,37.932727,39.268646,34.322796,38.202946],[-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-120.012285,-121.684758,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.592018,-119.896002,-122.226655,-120.704731,-117.407146,-122.720114,-121.227026,-120.761996,-120.400968,-118.882552,-121.874174,-121.31769,-122.744185,-119.076397,-122.887364,-120.718904,-122.322358,-120.710638,-123.889508,-119.803263,-121.912906,-122.03692,-122.322358,-121.340045,-116.737646,-120.989631,-120.012285,-115.994935,-121.060133,-121.913023,-122.430647,-121.982295,-117.756775,-115.364568,-120.589843,-120.518515,-122.229505,-118.792225,-121.897776,-123.863888,-123.104847,-122.533844,-119.641323,-121.592018,-120.838191,-116.176459,-121.687339,-121.982295,-121.592018,-120.650063,-122.383535,-118.73308,-123.377828,-121.684758,-119.817775,-119.74733,-120.505271,-119.946028,-122.327344,-121.264123,-121.340045,-118.221787,-120.544084],500,null,"Female",{"interactive":true,"className":"","stroke":true,"color":["#D6EFB3","#C7E9B4","#BBE4B5","#B7E2B6","#AADDB7","#BBE4B5","#D6EFB3","#9DD8B9","#CAEAB4","#A8DCB7","#B0DFB7","#AFDFB7","#CCEBB4","#A1D9B8","#83CEBB","#A9DDB7","#A1D9B8","#9AD7B9","#BBE4B5","#AADDB7","#DFF2B2","#A1D9B8","#BBE4B5","#9CD8B9","#9ED8B8","#B1E0B7","#D5EFB3","#CAEAB4","#CFECB3","#C7E9B4","#D1EDB3","#B3E1B6","#ABDDB7","#B6E2B6","#D3EEB3","#95D5B9","#CBEBB4","#DAF0B3","#B3E1B6","#D2EDB3","#D9F0B3","#CFECB3","#DAF0B3","#D4EEB3","#98D6B9","#B3E1B6","#ABDDB7","#D2EDB3","#CDEBB4","#86CFBA","#A8DCB7","#AEDEB7","#A3DAB8","#8FD2BA","#A7DCB7","#CDECB4","#C7E9B4","#9BD7B9","#CFECB3","#C4E8B4","#B7E2B6","#B4E1B6","#A1D9B8","#AFDFB7","#D4EEB3","#A2DAB8","#C7E9B4","#92D4B9","#ACDEB7","#A8DCB7","#A5DBB8","#90D3BA","#74C8BD","#9ED8B8","#A2DAB8","#90D3BA","#A5DBB8","#9BD7B9","#DDF2B2","#99D6B9","#B4E1B6","#7CCCBC","#94D4B9","#ADDEB7","#D0ECB3","#C2E7B5","#CEECB3","#B7E2B6","#CEECB4","#B2E0B6","#9CD8B9","#A8DCB7","#CEECB3","#72C7BD","#C7E9B4","#D1EDB3","#9AD7B9","#CEECB3","#D0EDB3","#CAEAB4","#CFECB3","#D1EDB3","#94D4B9","#B0DFB7","#A5DBB8","#CDEBB4","#CAEAB4","#6FC6BE","#8DD2BA","#A5DBB8","#9ED8B8","#76C9BD","#A9DDB7","#C6E9B4","#BEE5B5","#80CDBB","#9FD8B8","#FFFFD9","#89D0BA","#6BC4BF","#A4DAB8","#8CD2BA","#FFFFD9","#99D6B9","#70C6BE","#FFFFD9","#FFFFD9","#73C8BD","#62C1C0","#65C2C0","#59BDC1","#BAE3B6","#3AACC3","#68C3BF","#6BC4BF","#BCE4B5","#69C3BF","#B0DFB7","#68C3BF","#FFFFD9","#74C8BD","#99D6B9","#B4E1B6","#6AC4BF","#6EC5BE","#95D5B9","#6FC6BE","#71C7BE","#95D5B9","#AEDFB7","#6AC4BF","#77C9BD","#8FD3BA","#78CABC","#74C8BD","#ACDEB7","#77C9BD","#C3E7B4","#C7E9B4","#FFFFD9","#46B7C4","#FFFFD9","#A0D9B8","#BAE3B6","#84CFBB","#96D5B9","#FFFFD9","#FFFFD9","#56BCC2","#74C8BD","#6BC4BF","#A1D9B8","#A3DAB8","#E3F4B2","#E4F5B2","#D8F0B3","#EAF7B1","#D6EFB3","#E0F3B2","#E4F5B2","#E1F3B2","#DBF1B3","#CCEBB4","#DEF2B2","#DEF2B2","#D5EFB3","#C8EAB4","#B8E3B6","#CAEAB4","#E0F3B2","#E2F4B2","#D2EDB3","#CDEBB4","#F2FABC","#CEECB4","#E4F4B2","#D0ECB3","#E2F4B2","#CDEBB4","#DBF1B3","#E5F5B2","#E4F5B2","#D8F0B3","#E0F3B2","#E5F5B2","#CEECB3","#D5EEB3","#D4EEB3","#CBEBB4","#D7EFB3","#E2F4B2","#DCF1B2","#E8F6B1","#E2F3B2","#DCF1B2","#E1F3B2","#D2EDB3","#DFF2B2","#E2F4B2","#E7F6B2","#E2F3B2","#EBF7B1","#D1EDB3","#E1F3B2","#E2F4B2","#E1F3B2","#BBE4B5","#CEECB3","#DAF0B3","#DBF1B2","#E9F6B1","#D4EEB3","#FFFFD9","#AFDFB7","#FFFFD9","#68C3BF","#FFFFD9","#2374B3","#B7E2B6","#B7E2B6","#75C8BD","#AEDFB7","#88D0BA","#A9DDB7","#9FD8B8","#9FD9B8","#6DC5BE","#8ED2BA","#A1D9B8","#A7DCB8","#FFFFD9","#FFFFD9","#D2EDB3","#B8E3B6","#A1D9B8","#C9EAB4","#A3DAB8","#FFFFD9","#FFFFD9","#A3DAB8","#C3E7B4","#6AC4BF","#8DD2BA","#C0E6B5","#9DD8B8","#9AD7B9","#9ED8B8","#FFFFD9","#CCEBB4","#96D5B9","#A6DBB8","#A5DBB8","#5FBFC0","#FFFFD9","#C5E8B4","#D0ECB3","#E4F4B2","#C2E7B5","#B2E0B6","#82CEBB","#9CD8B9","#A1DAB8","#FFFFD9","#A2DAB8","#B4E1B6","#FFFFD9","#DEF2B2","#D3EEB3","#E4F5B2","#D5EFB3","#E9F7B1","#DEF2B2","#DCF1B2","#DAF1B3","#D4EEB3","#EEF8B3","#DEF2B2","#D7EFB3","#E9F6B1","#E5F5B2","#D4EEB3","#E9F6B1","#E6F5B2","#FFFFD9","#D5EEB3","#EDF8B2","#FFFFD9","#FFFFD9","#E4F5B2","#E2F3B2","#E8F6B1","#F1F9B9","#E0F3B2","#EAF7B1","#DFF3B2","#E9F6B1","#EAF7B1","#E0F3B2","#E1F3B2","#D5EFB3","#E2F4B2","#D0ECB3","#CDEBB4","#DDF2B2","#FFFFD9","#FFFFD9","#FFFFD9","#DBF1B3","#D6EFB3","#E1F3B2","#DAF1B3","#DDF1B2","#FFFFD9","#FFFFD9","#DDF2B2","#CBEAB4","#CEECB3","#DAF0B3","#ECF8B1","#FFFFD9","#D5EEB3","#D6EFB3","#E1F3B2","#E1F3B2","#DFF3B2","#FFFFD9","#DFF2B2","#DDF1B2"],"weight":5,"opacity":1,"fill":true,"fillColor":["#D6EFB3","#C7E9B4","#BBE4B5","#B7E2B6","#AADDB7","#BBE4B5","#D6EFB3","#9DD8B9","#CAEAB4","#A8DCB7","#B0DFB7","#AFDFB7","#CCEBB4","#A1D9B8","#83CEBB","#A9DDB7","#A1D9B8","#9AD7B9","#BBE4B5","#AADDB7","#DFF2B2","#A1D9B8","#BBE4B5","#9CD8B9","#9ED8B8","#B1E0B7","#D5EFB3","#CAEAB4","#CFECB3","#C7E9B4","#D1EDB3","#B3E1B6","#ABDDB7","#B6E2B6","#D3EEB3","#95D5B9","#CBEBB4","#DAF0B3","#B3E1B6","#D2EDB3","#D9F0B3","#CFECB3","#DAF0B3","#D4EEB3","#98D6B9","#B3E1B6","#ABDDB7","#D2EDB3","#CDEBB4","#86CFBA","#A8DCB7","#AEDEB7","#A3DAB8","#8FD2BA","#A7DCB7","#CDECB4","#C7E9B4","#9BD7B9","#CFECB3","#C4E8B4","#B7E2B6","#B4E1B6","#A1D9B8","#AFDFB7","#D4EEB3","#A2DAB8","#C7E9B4","#92D4B9","#ACDEB7","#A8DCB7","#A5DBB8","#90D3BA","#74C8BD","#9ED8B8","#A2DAB8","#90D3BA","#A5DBB8","#9BD7B9","#DDF2B2","#99D6B9","#B4E1B6","#7CCCBC","#94D4B9","#ADDEB7","#D0ECB3","#C2E7B5","#CEECB3","#B7E2B6","#CEECB4","#B2E0B6","#9CD8B9","#A8DCB7","#CEECB3","#72C7BD","#C7E9B4","#D1EDB3","#9AD7B9","#CEECB3","#D0EDB3","#CAEAB4","#CFECB3","#D1EDB3","#94D4B9","#B0DFB7","#A5DBB8","#CDEBB4","#CAEAB4","#6FC6BE","#8DD2BA","#A5DBB8","#9ED8B8","#76C9BD","#A9DDB7","#C6E9B4","#BEE5B5","#80CDBB","#9FD8B8","#FFFFD9","#89D0BA","#6BC4BF","#A4DAB8","#8CD2BA","#FFFFD9","#99D6B9","#70C6BE","#FFFFD9","#FFFFD9","#73C8BD","#62C1C0","#65C2C0","#59BDC1","#BAE3B6","#3AACC3","#68C3BF","#6BC4BF","#BCE4B5","#69C3BF","#B0DFB7","#68C3BF","#FFFFD9","#74C8BD","#99D6B9","#B4E1B6","#6AC4BF","#6EC5BE","#95D5B9","#6FC6BE","#71C7BE","#95D5B9","#AEDFB7","#6AC4BF","#77C9BD","#8FD3BA","#78CABC","#74C8BD","#ACDEB7","#77C9BD","#C3E7B4","#C7E9B4","#FFFFD9","#46B7C4","#FFFFD9","#A0D9B8","#BAE3B6","#84CFBB","#96D5B9","#FFFFD9","#FFFFD9","#56BCC2","#74C8BD","#6BC4BF","#A1D9B8","#A3DAB8","#E3F4B2","#E4F5B2","#D8F0B3","#EAF7B1","#D6EFB3","#E0F3B2","#E4F5B2","#E1F3B2","#DBF1B3","#CCEBB4","#DEF2B2","#DEF2B2","#D5EFB3","#C8EAB4","#B8E3B6","#CAEAB4","#E0F3B2","#E2F4B2","#D2EDB3","#CDEBB4","#F2FABC","#CEECB4","#E4F4B2","#D0ECB3","#E2F4B2","#CDEBB4","#DBF1B3","#E5F5B2","#E4F5B2","#D8F0B3","#E0F3B2","#E5F5B2","#CEECB3","#D5EEB3","#D4EEB3","#CBEBB4","#D7EFB3","#E2F4B2","#DCF1B2","#E8F6B1","#E2F3B2","#DCF1B2","#E1F3B2","#D2EDB3","#DFF2B2","#E2F4B2","#E7F6B2","#E2F3B2","#EBF7B1","#D1EDB3","#E1F3B2","#E2F4B2","#E1F3B2","#BBE4B5","#CEECB3","#DAF0B3","#DBF1B2","#E9F6B1","#D4EEB3","#FFFFD9","#AFDFB7","#FFFFD9","#68C3BF","#FFFFD9","#2374B3","#B7E2B6","#B7E2B6","#75C8BD","#AEDFB7","#88D0BA","#A9DDB7","#9FD8B8","#9FD9B8","#6DC5BE","#8ED2BA","#A1D9B8","#A7DCB8","#FFFFD9","#FFFFD9","#D2EDB3","#B8E3B6","#A1D9B8","#C9EAB4","#A3DAB8","#FFFFD9","#FFFFD9","#A3DAB8","#C3E7B4","#6AC4BF","#8DD2BA","#C0E6B5","#9DD8B8","#9AD7B9","#9ED8B8","#FFFFD9","#CCEBB4","#96D5B9","#A6DBB8","#A5DBB8","#5FBFC0","#FFFFD9","#C5E8B4","#D0ECB3","#E4F4B2","#C2E7B5","#B2E0B6","#82CEBB","#9CD8B9","#A1DAB8","#FFFFD9","#A2DAB8","#B4E1B6","#FFFFD9","#DEF2B2","#D3EEB3","#E4F5B2","#D5EFB3","#E9F7B1","#DEF2B2","#DCF1B2","#DAF1B3","#D4EEB3","#EEF8B3","#DEF2B2","#D7EFB3","#E9F6B1","#E5F5B2","#D4EEB3","#E9F6B1","#E6F5B2","#FFFFD9","#D5EEB3","#EDF8B2","#FFFFD9","#FFFFD9","#E4F5B2","#E2F3B2","#E8F6B1","#F1F9B9","#E0F3B2","#EAF7B1","#DFF3B2","#E9F6B1","#EAF7B1","#E0F3B2","#E1F3B2","#D5EFB3","#E2F4B2","#D0ECB3","#CDEBB4","#DDF2B2","#FFFFD9","#FFFFD9","#FFFFD9","#DBF1B3","#D6EFB3","#E1F3B2","#DAF1B3","#DDF1B2","#FFFFD9","#FFFFD9","#DDF2B2","#CBEAB4","#CEECB3","#DAF0B3","#ECF8B1","#FFFFD9","#D5EEB3","#D6EFB3","#E1F3B2","#E1F3B2","#DFF3B2","#FFFFD9","#DFF2B2","#DDF1B2"],"fillOpacity":1},null,null,["Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","Santa Barbara County","Santa Clara County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Butte County","Mariposa County","Tehama County","Merced County","Inyo County","Marin County","Monterey County","Nevada County","San Luis Obispo County","Mono County","Alameda County","Sacramento County","Lake County","Ventura County","Sonoma County","Modoc County","San Mateo County","Placer County","Del Norte County","Kings County","Contra Costa County","Shasta County","San Mateo County","Yuba County","San Diego County","Stanislaus County","Santa Barbara County","Riverside County","San Benito County","Solano County","San Francisco County","Santa Cruz County","Orange County","Imperial County","Lassen County","El Dorado County","Colusa County","Tulare County","Yolo County","Humboldt County","Trinity County","Siskiyou County","Fresno County","Butte County","Plumas County","San Bernardino County","Sutter County","Santa Cruz County","Butte County","Amador County","Glenn County","Kern County","Mendocino County","Santa Clara County","Alpine County","Madera County","Sierra County","Tuolumne County","Napa County","San Joaquin County","Yuba County","Los Angeles County","Calaveras County"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[[37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646],[-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045],500,null,"Overall",{"interactive":true,"className":"","stroke":true,"color":["#C1E7B5","#9BD7B9","#88D0BA","#7ACBBC","#76C9BD","#8AD1BA","#C2E7B5","#61C0C0","#A8DCB7","#7ECCBB","#7DCCBB","#78CABC","#97D5B9","#83CFBB","#5BBEC1","#89D0BA","#5FBFC0","#69C3BF","#91D3BA","#7ECCBB","#CEECB3","#7BCBBC","#85CFBB","#79CABC","#6EC6BE","#9CD8B9","#C1E6B5","#A3DAB8","#BDE5B5","#A7DCB8","#B1E0B6","#79CABC","#7ECCBB","#86CFBA","#B4E1B6","#6FC6BE","#A9DCB7","#C8E9B4","#80CDBB","#BCE4B5","#C3E7B4","#ADDEB7","#CBEAB4","#B5E2B6","#68C3BF","#94D4B9","#72C7BD","#B7E2B6","#AFDFB7","#61C0C0","#79CABC","#79CABC","#72C7BD","#6AC3BF","#7DCCBB","#AFDFB7","#A7DCB8","#59BDC1"],"weight":5,"opacity":1,"fill":true,"fillColor":["#C1E7B5","#9BD7B9","#88D0BA","#7ACBBC","#76C9BD","#8AD1BA","#C2E7B5","#61C0C0","#A8DCB7","#7ECCBB","#7DCCBB","#78CABC","#97D5B9","#83CFBB","#5BBEC1","#89D0BA","#5FBFC0","#69C3BF","#91D3BA","#7ECCBB","#CEECB3","#7BCBBC","#85CFBB","#79CABC","#6EC6BE","#9CD8B9","#C1E6B5","#A3DAB8","#BDE5B5","#A7DCB8","#B1E0B6","#79CABC","#7ECCBB","#86CFBA","#B4E1B6","#6FC6BE","#A9DCB7","#C8E9B4","#80CDBB","#BCE4B5","#C3E7B4","#ADDEB7","#CBEAB4","#B5E2B6","#68C3BF","#94D4B9","#72C7BD","#B7E2B6","#AFDFB7","#61C0C0","#79CABC","#79CABC","#72C7BD","#6AC3BF","#7DCCBB","#AFDFB7","#A7DCB8","#59BDC1"],"fillOpacity":1},null,null,["Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addLayersControl","args":[["Male","Famle","Overall"],[],{"collapsed":true,"autoZIndex":true,"position":"topright"}]},{"method":"addLegend","args":[{"colors":["#FFFFD9 , #FFFFD9 0%, #EEF9B4 11.5540150202195%, #CDEBB4 23.1080300404391%, #91D3BA 34.6620450606586%, #58BDC1 46.2160600808781%, #2E9FC2 57.7700751010976%, #2375B3 69.3240901213172%, #264A9F 80.8781051415367%, #1A2B7C 92.4321201617562%, #081D58 "],"labels":["0","100","200","300","400","500","600","700","800"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomleft","type":"numeric","title":"heart diseases death rate per 100,000 population based on gender in CA","extra":{"p_1":0,"p_n":0.924321201617562},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[33.035423,41.738952],"lng":[-123.889508,-115.364568]}},"evals":[],"jsHooks":[]}</script>
+<p>Within gender stratification and female category, Kern County, Tulare County and Glenn County had relatively higher heart disease death rate during 2014. For male category, Tulare County and Tuolumne County had relatvely higher heart disease death rate during 2014. Without any stratification, kern County and Tulare County had relatively higher heart disease death rate during 2014. The counties along the coast generally had a lower death rate than the counties not along the coast. The possible reason might be the different medical levels in each county. Compare the general trend, male had a higher death rate than female in general, which also indicated by histogram before. The possible reason might be the different lifestyle.</p>
+<pre class="r"><code># create race subset 
+CA_white &lt;- heartdisease_CA[Stratification2 == &#39;White&#39;]
+CA_hispanic &lt;- heartdisease_CA[Stratification2 == &#39;Hispanic&#39;]
+CA_black &lt;- heartdisease_CA[Stratification2 == &#39;Black&#39;]
+CA_asian_pacific &lt;- heartdisease_CA[Stratification2 == &#39;Asian and Pacific Islander&#39;]
+CA_indian_alaskan &lt;- heartdisease_CA[Stratification2 == &#39;American Indian and Alaskan Native&#39;]
+
+temp.pal2 &lt;- colorNumeric(palette = &quot;YlGnBu&quot;, domain = CA_race$Data_Value, na.color = &quot;#808080&quot;)
+#visualize by leaflet
+map_race &lt;- leaflet() %&gt;% 
+  addProviderTiles(&#39;CartoDB.Positron&#39;) %&gt;% 
+  addCircles(
+    data = CA_white,
+    lat = ~lat, lng=~lon,
+    label = CA_white$LocationDesc, color = ~ temp.pal2(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = &quot;White&quot;
+    ) %&gt;%
+  addCircles(
+    data = CA_hispanic,
+    lat = ~lat, lng=~lon,
+    label = CA_hispanic$LocationDesc, color = ~ temp.pal2(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = &quot;Hispanic&quot;
+    ) %&gt;%
+  addCircles(
+    data = CA_black,
+    lat = ~lat, lng=~lon,
+    label = CA_black$LocationDesc, color = ~ temp.pal2(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = &quot;Black&quot;
+    ) %&gt;%
+  addCircles(
+    data = CA_asian_pacific,
+    lat = ~lat, lng=~lon,
+    label = CA_asian_pacific$LocationDesc, color = ~ temp.pal2(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = &quot;Asian and Pacific Islander&quot;
+    ) %&gt;%
+  addCircles(
+    data = CA_indian_alaskan,
+    lat = ~lat, lng=~lon,
+    label = CA_indian_alaskan$LocationDesc, color = ~ temp.pal2(Data_Value),
+    opacity = 1, fillOpacity = 1, radius = 500, group = &quot;American Indian and Alaskan Native&quot;
+    ) %&gt;%
+  addLayersControl(baseGroups = c(&quot;White&quot;, &quot;Hispanic&quot;, &quot;Black&quot;, &quot;Asian and Pacific Islander&quot;, &quot;American Indian and Alaskan Native&quot;)) %&gt;%
+  addLegend(&#39;bottomleft&#39;, pal=temp.pal2, values=CA_race$Data_Value,
+          title=&#39;heart diseases death rate per 100,000 population based on race in CA&#39;, opacity=1)
+map_race</code></pre>
+<div id="htmlwidget-679a0d2f5dc339d6aa29" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-679a0d2f5dc339d6aa29">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircles","args":[[37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646],[-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045],500,null,"White",{"interactive":true,"className":"","stroke":true,"color":["#58BDC1","#3BADC3","#2E9FC2","#1D91C0","#1F8BBD","#208ABD","#6AC4BF","#2377B4","#45B7C4","#227FB8","#1D90C0","#2093C0","#2458A5","#1F8BBD","#2552A2","#1E8DBE","#2372B1","#2372B1","#1E8FBF","#2186BB","#85CFBB","#1E8FBF","#2798C1","#236BAE","#227DB7","#3FB4C4","#5EBFC1","#38AAC3","#6CC4BE","#35A6C2","#59BDC1","#2093C0","#2187BB","#2093C0","#51BBC2","#2456A4","#3FB3C4","#56BCC2","#2280B8","#64C1C0","#60C0C0","#47B8C3","#61C0C0","#60C0C0","#227DB7","#3AACC3","#2184BA","#53BBC2","#4FBAC3","#2553A3","#236FB0","#1F8CBE","#2087BC","#2554A3","#2597C1","#40B4C4","#3AADC3","#264CA0","#2194C0","#2376B3","#235BA6","#263B97","#26439B","#263F99","#35A6C2","#26469D","#2194C0","#26409A","#26419A","#264DA0","#0A1E5C","#263E99","#102367","#2553A3","#263996","#243392","#254EA0","#26489E","#45B7C4","#26479D","#2458A5","#263996","#26419A","#2186BB","#2A9BC1","#2370B0","#3EB2C4","#2373B2","#2899C1","#263F99","#264B9F","#254EA0","#1F8CBE","#162874","#2183BA","#2A9BC1","#263996","#35A6C2","#2C9DC1","#2089BC","#31A1C2","#2E9EC2","#26419A","#236FB0","#26479D","#1D90C0","#2294C0","#13266E","#263996","#26439B","#26479D","#0E2264","#2456A4","#2281B9","#2371B1","#808080","#90D3BA","#76C9BD","#65C2C0","#61C0C0","#43B7C4","#5ABDC1","#9ED8B8","#45B7C4","#7BCBBC","#39ABC3","#56BCC2","#50BAC2","#4BB9C3","#38AAC3","#1E91C0","#40B4C4","#45B7C4","#38A9C3","#4AB8C3","#3EB2C4","#B9E3B6","#3DB1C3","#62C0C0","#299AC1","#3AADC3","#58BDC1","#92D4B9","#74C8BD","#8DD2BA","#65C2C0","#8CD1BA","#5EBFC1","#3FB3C4","#50BAC2","#8ED2BA","#1E8FBF","#7ACBBC","#96D5B9","#3EB2C4","#8DD2BA","#93D4B9","#7FCDBB","#91D3BA","#95D5B9","#3AADC3","#5BBEC1","#4AB9C3","#8AD1BA","#7FCDBB","#2089BC","#36A7C3","#4BB9C3","#40B5C4","#2193C0","#52BBC2","#79CABC","#6FC6BE","#2E9EC2"],"weight":5,"opacity":1,"fill":true,"fillColor":["#58BDC1","#3BADC3","#2E9FC2","#1D91C0","#1F8BBD","#208ABD","#6AC4BF","#2377B4","#45B7C4","#227FB8","#1D90C0","#2093C0","#2458A5","#1F8BBD","#2552A2","#1E8DBE","#2372B1","#2372B1","#1E8FBF","#2186BB","#85CFBB","#1E8FBF","#2798C1","#236BAE","#227DB7","#3FB4C4","#5EBFC1","#38AAC3","#6CC4BE","#35A6C2","#59BDC1","#2093C0","#2187BB","#2093C0","#51BBC2","#2456A4","#3FB3C4","#56BCC2","#2280B8","#64C1C0","#60C0C0","#47B8C3","#61C0C0","#60C0C0","#227DB7","#3AACC3","#2184BA","#53BBC2","#4FBAC3","#2553A3","#236FB0","#1F8CBE","#2087BC","#2554A3","#2597C1","#40B4C4","#3AADC3","#264CA0","#2194C0","#2376B3","#235BA6","#263B97","#26439B","#263F99","#35A6C2","#26469D","#2194C0","#26409A","#26419A","#264DA0","#0A1E5C","#263E99","#102367","#2553A3","#263996","#243392","#254EA0","#26489E","#45B7C4","#26479D","#2458A5","#263996","#26419A","#2186BB","#2A9BC1","#2370B0","#3EB2C4","#2373B2","#2899C1","#263F99","#264B9F","#254EA0","#1F8CBE","#162874","#2183BA","#2A9BC1","#263996","#35A6C2","#2C9DC1","#2089BC","#31A1C2","#2E9EC2","#26419A","#236FB0","#26479D","#1D90C0","#2294C0","#13266E","#263996","#26439B","#26479D","#0E2264","#2456A4","#2281B9","#2371B1","#808080","#90D3BA","#76C9BD","#65C2C0","#61C0C0","#43B7C4","#5ABDC1","#9ED8B8","#45B7C4","#7BCBBC","#39ABC3","#56BCC2","#50BAC2","#4BB9C3","#38AAC3","#1E91C0","#40B4C4","#45B7C4","#38A9C3","#4AB8C3","#3EB2C4","#B9E3B6","#3DB1C3","#62C0C0","#299AC1","#3AADC3","#58BDC1","#92D4B9","#74C8BD","#8DD2BA","#65C2C0","#8CD1BA","#5EBFC1","#3FB3C4","#50BAC2","#8ED2BA","#1E8FBF","#7ACBBC","#96D5B9","#3EB2C4","#8DD2BA","#93D4B9","#7FCDBB","#91D3BA","#95D5B9","#3AADC3","#5BBEC1","#4AB9C3","#8AD1BA","#7FCDBB","#2089BC","#36A7C3","#4BB9C3","#40B5C4","#2193C0","#52BBC2","#79CABC","#6FC6BE","#2E9EC2"],"fillOpacity":1},null,null,["Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[[37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646],[-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045],500,null,"Hispanic",{"interactive":true,"className":"","stroke":true,"color":["#A2DAB8","#B2E0B6","#73C8BD","#A1D9B8","#69C3BF","#A3DAB8","#A9DDB7","#5DBFC1","#90D3BA","#61C0C0","#84CFBB","#63C1C0","#6DC5BE","#5EBFC1","#3AADC3","#5DBFC1","#9AD7B9","#7DCCBB","#6EC5BE","#66C2BF","#D3EEB3","#68C3BF","#8FD2BA","#72C7BD","#83CEBB","#69C3BF","#99D6B9","#B5E1B6","#81CEBB","#85CFBB","#73C7BD","#7DCCBB","#6AC4BF","#74C8BD","#74C8BD","#62C0C0","#7DCCBB","#A2DAB8","#71C7BE","#BBE4B5","#A1D9B8","#8CD1BA","#9AD7B9","#7FCDBB","#6BC4BF","#8AD1BA","#72C7BD","#A4DBB8","#BAE4B5","#64C1C0","#8ED2BA","#83CEBB","#71C7BE","#4BB9C3","#65C2C0","#89D0BA","#94D4B9","#87D0BA","#6EC5BE","#9BD7B9","#3BADC3","#61C0C0","#34A4C2","#83CEBB","#74C8BD","#808080","#74C8BD","#39ABC3","#51BAC2","#2280B8","#37A9C3","#39ABC3","#2294C0","#38AAC3","#7FCDBB","#2B9BC1","#3CAFC3","#3FB4C4","#91D3BA","#39ABC3","#63C1C0","#4FBAC2","#47B7C3","#45B7C4","#79CABC","#84CFBB","#41B6C4","#59BDC1","#2395C0","#30A1C2","#3FB3C4","#41B6C4","#4AB8C3","#3AACC3","#51BAC2","#6FC6BE","#34A5C2","#8ED2BA","#6CC4BE","#60C0C0","#69C3BF","#6EC5BE","#2088BC","#4DB9C3","#3BADC3","#78CABC","#89D0BA","#36A8C3","#57BDC2","#3BAEC3","#2597C1","#35A6C2","#41B6C4","#59BDC1","#6FC6BE","#38AAC3","#C8E9B4","#CAEAB4","#AADDB7","#D4EEB3","#A4DAB8","#C1E6B5","#CBEAB4","#C2E7B5","#B2E0B6","#88D0BA","#BCE5B5","#BBE4B5","#A3DAB8","#7CCCBC","#67C2BF","#80CDBB","#C2E7B5","#C6E9B4","#98D6B9","#89D0BA","#E9F6B1","#8DD2BA","#CAEAB4","#93D4B9","#C7E9B4","#89D0BA","#B3E0B6","#CCEBB4","#CAEAB4","#ABDDB7","#C0E6B5","#CCEBB4","#8ED2BA","#A2DAB8","#9FD8B8","#85CFBB","#A6DBB8","#C6E9B4","#B5E1B6","#D0ECB3","#C6E8B4","#B7E2B6","#C4E8B4","#99D6B9","#BDE5B5","#C7E9B4","#CEECB3","#C5E8B4","#D5EEB3","#97D6B9","#C4E8B4","#C6E9B4","#C3E7B5","#6BC4BF","#8DD2BA","#B0DFB7","#B4E1B6","#D2EDB3"],"weight":5,"opacity":1,"fill":true,"fillColor":["#A2DAB8","#B2E0B6","#73C8BD","#A1D9B8","#69C3BF","#A3DAB8","#A9DDB7","#5DBFC1","#90D3BA","#61C0C0","#84CFBB","#63C1C0","#6DC5BE","#5EBFC1","#3AADC3","#5DBFC1","#9AD7B9","#7DCCBB","#6EC5BE","#66C2BF","#D3EEB3","#68C3BF","#8FD2BA","#72C7BD","#83CEBB","#69C3BF","#99D6B9","#B5E1B6","#81CEBB","#85CFBB","#73C7BD","#7DCCBB","#6AC4BF","#74C8BD","#74C8BD","#62C0C0","#7DCCBB","#A2DAB8","#71C7BE","#BBE4B5","#A1D9B8","#8CD1BA","#9AD7B9","#7FCDBB","#6BC4BF","#8AD1BA","#72C7BD","#A4DBB8","#BAE4B5","#64C1C0","#8ED2BA","#83CEBB","#71C7BE","#4BB9C3","#65C2C0","#89D0BA","#94D4B9","#87D0BA","#6EC5BE","#9BD7B9","#3BADC3","#61C0C0","#34A4C2","#83CEBB","#74C8BD","#808080","#74C8BD","#39ABC3","#51BAC2","#2280B8","#37A9C3","#39ABC3","#2294C0","#38AAC3","#7FCDBB","#2B9BC1","#3CAFC3","#3FB4C4","#91D3BA","#39ABC3","#63C1C0","#4FBAC2","#47B7C3","#45B7C4","#79CABC","#84CFBB","#41B6C4","#59BDC1","#2395C0","#30A1C2","#3FB3C4","#41B6C4","#4AB8C3","#3AACC3","#51BAC2","#6FC6BE","#34A5C2","#8ED2BA","#6CC4BE","#60C0C0","#69C3BF","#6EC5BE","#2088BC","#4DB9C3","#3BADC3","#78CABC","#89D0BA","#36A8C3","#57BDC2","#3BAEC3","#2597C1","#35A6C2","#41B6C4","#59BDC1","#6FC6BE","#38AAC3","#C8E9B4","#CAEAB4","#AADDB7","#D4EEB3","#A4DAB8","#C1E6B5","#CBEAB4","#C2E7B5","#B2E0B6","#88D0BA","#BCE5B5","#BBE4B5","#A3DAB8","#7CCCBC","#67C2BF","#80CDBB","#C2E7B5","#C6E9B4","#98D6B9","#89D0BA","#E9F6B1","#8DD2BA","#CAEAB4","#93D4B9","#C7E9B4","#89D0BA","#B3E0B6","#CCEBB4","#CAEAB4","#ABDDB7","#C0E6B5","#CCEBB4","#8ED2BA","#A2DAB8","#9FD8B8","#85CFBB","#A6DBB8","#C6E9B4","#B5E1B6","#D0ECB3","#C6E8B4","#B7E2B6","#C4E8B4","#99D6B9","#BDE5B5","#C7E9B4","#CEECB3","#C5E8B4","#D5EEB3","#97D6B9","#C4E8B4","#C6E9B4","#C3E7B5","#6BC4BF","#8DD2BA","#B0DFB7","#B4E1B6","#D2EDB3"],"fillOpacity":1},null,null,["Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[[37.640732,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,39.576693,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,40.698187,38.596494,38.596494,40.758306,39.663077,40.698187,41.588337],[-121.874174,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-120.505271,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-123.863888,-119.817775,-119.817775,-122.03692,-121.592018,-123.863888,-122.533844],500,null,"Black",{"interactive":true,"className":"","stroke":true,"color":["#2093C0","#FFFFD9","#2194C0","#1D2D82","#2089BC","#208ABD","#FFFFD9","#3CAEC3","#2455A4","#2184BA","#2369AD","#26419A","#1F2F88","#2374B2","#1E8EBF","#254FA1","#263C98","#253594","#4FBAC3","#26479D","#1F8BBD","#263996","#2551A2","#235BA7","#40B4C4","#30A0C2","#2365AC","#2373B2","#2187BB","#2282B9","#225EA8","#2377B4","#2B9CC1","#254EA0","#2370B0","#2283B9","#2552A2","#6BC4BF","#2495C1","#26439B","#3CAEC3","#3CAFC3","#1E8DBE","#26489D","#3CAEC3","#299AC1","#32A2C2","#235CA7","#237CB6","#31A1C2","#2089BD","#263997","#1E90BF","#264DA0","#2183BA","#2093C0","#2554A3","#FFFFD9","#1E92C0","#808080","#263F99","#2455A4","#FFFFD9","#237BB6","#12256C","#263A97","#26469C","#808080","#808080","#2550A1","#26489D","#225DA7","#808080","#808080","#2B9BC1","#808080","#254EA0","#0C205F","#2363AA","#1A2B7D","#32A3C2","#2362AA","#2458A5","#2553A3","#264C9F","#236AAE","#253795","#22328E","#235BA6","#102367","#26479D","#264C9F","#192A79","#90D3BA","#225EA8","#808080","#2369AD","#227EB7","#26439B","#2456A4","#236FB0","#20308A","#26499E","#2597C1","#FFFFD9","#808080","#2193C0","#0A1E5B","#263E99","#2378B5","#40B5C4","#FFFFD9","#34A5C2","#2184BA","#48B8C3","#36A7C3","#FFFFD9","#3DB1C3","#1F8BBD","#FFFFD9","#FFFFD9","#1E90BF","#2377B4","#237BB6","#236CAF","#69C3BF","#26449B","#2280B8","#2183BA","#6CC4BE","#2280B8","#5CBEC1","#2280B8","#FFFFD9","#1D90C0","#3DB1C3","#61C0C0","#2282B9","#2087BC","#3BADC3","#2089BC","#1F8DBE","#3BAEC3","#59BDC1","#2183B9","#2294C0","#38A9C3","#2496C1","#1D91C0","#56BCC2","#2294C0","#75C8BD","#79CABC","#FFFFD9","#2459A5","#FFFFD9","#42B6C4","#69C3BF","#30A1C2","#3CAEC3","#FFFFD9","#FFFFD9","#2368AD","#1D91C0","#2183BA","#43B6C4","#48B8C3","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9"],"weight":5,"opacity":1,"fill":true,"fillColor":["#2093C0","#FFFFD9","#2194C0","#1D2D82","#2089BC","#208ABD","#FFFFD9","#3CAEC3","#2455A4","#2184BA","#2369AD","#26419A","#1F2F88","#2374B2","#1E8EBF","#254FA1","#263C98","#253594","#4FBAC3","#26479D","#1F8BBD","#263996","#2551A2","#235BA7","#40B4C4","#30A0C2","#2365AC","#2373B2","#2187BB","#2282B9","#225EA8","#2377B4","#2B9CC1","#254EA0","#2370B0","#2283B9","#2552A2","#6BC4BF","#2495C1","#26439B","#3CAEC3","#3CAFC3","#1E8DBE","#26489D","#3CAEC3","#299AC1","#32A2C2","#235CA7","#237CB6","#31A1C2","#2089BD","#263997","#1E90BF","#264DA0","#2183BA","#2093C0","#2554A3","#FFFFD9","#1E92C0","#808080","#263F99","#2455A4","#FFFFD9","#237BB6","#12256C","#263A97","#26469C","#808080","#808080","#2550A1","#26489D","#225DA7","#808080","#808080","#2B9BC1","#808080","#254EA0","#0C205F","#2363AA","#1A2B7D","#32A3C2","#2362AA","#2458A5","#2553A3","#264C9F","#236AAE","#253795","#22328E","#235BA6","#102367","#26479D","#264C9F","#192A79","#90D3BA","#225EA8","#808080","#2369AD","#227EB7","#26439B","#2456A4","#236FB0","#20308A","#26499E","#2597C1","#FFFFD9","#808080","#2193C0","#0A1E5B","#263E99","#2378B5","#40B5C4","#FFFFD9","#34A5C2","#2184BA","#48B8C3","#36A7C3","#FFFFD9","#3DB1C3","#1F8BBD","#FFFFD9","#FFFFD9","#1E90BF","#2377B4","#237BB6","#236CAF","#69C3BF","#26449B","#2280B8","#2183BA","#6CC4BE","#2280B8","#5CBEC1","#2280B8","#FFFFD9","#1D90C0","#3DB1C3","#61C0C0","#2282B9","#2087BC","#3BADC3","#2089BC","#1F8DBE","#3BAEC3","#59BDC1","#2183B9","#2294C0","#38A9C3","#2496C1","#1D91C0","#56BCC2","#2294C0","#75C8BD","#79CABC","#FFFFD9","#2459A5","#FFFFD9","#42B6C4","#69C3BF","#30A1C2","#3CAEC3","#FFFFD9","#FFFFD9","#2368AD","#1D91C0","#2183BA","#43B6C4","#48B8C3","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9"],"fillOpacity":1},null,null,["Alameda County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Sierra County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Humboldt County","Alpine County","Alpine County","Shasta County","Butte County","Humboldt County","Siskiyou County"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[[37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.746542,37.575843,40.12057,37.186923,36.508867,38.073204,37.933321,36.216903,39.295924,35.390034,37.212682,37.186923,37.913598,38.68661,39.295924,37.224522,40.758306,41.738952,39.033545,38.073204,36.078649,37.933321,37.640732,38.465312,39.09737,37.423939,35.345591,34.322796,33.041824,34.472949,38.527617,41.583941,37.423939,38.527617,39.061511,41.738952,36.078649,39.663077,33.035423,38.596494,37.640732,37.913598,40.758306,40.669961,39.268646,33.035423,37.553933,34.672496,34.844701,33.745425,36.220455,36.605701,38.508289,33.745425,40.698187,38.288602,38.024398,37.746542,40.64749,37.052057,37.052057,33.704545,33.041824,41.588337,40.669961,38.775788,39.061511,39.178048,36.220455,37.553933,38.68661,40.698187,40.698187,40.64749,41.588337,41.583941,33.704545,34.472949,36.754708,36.754708,38.465312,39.663077,37.575843,38.441847,40.002158,35.390034,34.844701,39.033545,39.268646,38.441847,39.597469,39.597469,35.345591,36.508867,39.436309,38.775788,39.178048,37.224522,38.596494,38.202946,37.212682,36.216903,39.576693,34.672496,39.576693,40.002158,39.436309,38.024398,38.508289,39.09737,37.932727,37.932727,34.322796,36.605701,40.12057,38.288602,38.202946],[-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-122.430647,-119.896002,-122.226655,-120.704731,-117.407146,-122.720114,-118.882552,-121.227026,-120.761996,-120.400968,-119.74733,-120.704731,-121.912906,-121.897776,-120.761996,-121.684758,-122.03692,-123.889508,-121.687339,-122.720114,-119.803263,-118.882552,-121.874174,-121.31769,-122.744185,-122.322358,-118.73308,-118.221787,-115.364568,-119.076397,-122.887364,-120.718904,-122.322358,-122.887364,-120.710638,-123.889508,-119.803263,-121.592018,-116.737646,-119.817775,-121.874174,-121.912906,-122.03692,-120.589843,-121.340045,-116.737646,-120.989631,-120.012285,-116.176459,-115.994935,-118.792225,-121.060133,-122.327344,-115.994935,-123.863888,-121.913023,-119.946028,-122.430647,-123.104847,-121.982295,-121.982295,-117.756775,-115.364568,-122.533844,-120.589843,-120.518515,-120.710638,-122.229505,-118.792225,-120.989631,-121.897776,-123.863888,-123.863888,-123.104847,-122.533844,-120.718904,-117.756775,-119.076397,-119.641323,-119.641323,-121.31769,-121.592018,-119.896002,-120.650063,-120.838191,-120.400968,-116.176459,-121.687339,-121.340045,-120.650063,-122.383535,-122.383535,-118.73308,-117.407146,-123.377828,-120.518515,-122.229505,-121.684758,-119.817775,-120.544084,-119.74733,-121.227026,-120.505271,-120.012285,-120.505271,-120.838191,-123.377828,-119.946028,-122.327344,-122.744185,-121.264123,-121.264123,-118.221787,-121.060133,-122.226655,-121.913023,-120.544084],500,null,"Asian and Pacific Islander",{"interactive":true,"className":"","stroke":true,"color":["#C8EAB4","#86CFBA","#82CEBB","#6BC4BF","#79CABC","#89D0BA","#C2E7B5","#FFFFD9","#92D4B9","#6FC6BE","#57BCC2","#A7DCB8","#73C7BD","#6CC4BE","#7ECCBB","#33A3C2","#7CCCBC","#94D4B9","#72C7BD","#C7E9B4","#79CABC","#A0D9B8","#A0D9B8","#7DCCBB","#6BC4BF","#8ED2BA","#A3DAB8","#99D6B9","#ACDEB7","#9DD8B8","#83CEBB","#A4DBB8","#84CFBB","#BCE4B5","#84CFBB","#AADDB7","#BDE5B5","#7FCDBB","#7FCDBB","#A4DBB8","#B9E3B6","#CCEBB4","#ABDDB7","#8AD1BA","#80CDBB","#91D3BA","#A3DAB8","#A9DCB7","#85CFBB","#7CCCBC","#7DCCBB","#8AD1BA","#58BDC1","#74C8BD","#ADDEB7","#A5DBB8","#8FD2BA","#93D4B9","#BCE4B5","#9CD8B9","#CAEAB4","#A3DAB8","#D3EDB3","#37A9C3","#BDE5B5","#B6E2B6","#B1E0B6","#3DB1C3","#7FCDBB","#8CD1BA","#ACDEB7","#63C1C0","#B8E3B6","#FFFFD9","#FFFFD9","#41B6C4","#C2E7B5","#3DB0C3","#9ED8B8","#DBF1B3","#BBE4B5","#A9DCB7","#65C1C0","#54BCC2","#62C0C0","#7BCBBC","#D2EDB3","#CBEBB4","#9ED8B8","#D2EDB3","#5DBFC1","#CDEBB4","#FFFFD9","#A2DAB8","#37A8C3","#80CDBB","#FFFFD9","#9DD8B8","#D9F0B3","#FFFFD9","#50BAC2","#CAEAB4","#C5E8B4","#D1EDB3","#E4F5B2","#5ABEC1","#C2E7B5","#2698C1","#D3EEB3","#84CFBB","#7ECCBB","#FFFFD9","#BFE6B5","#2B9CC1","#D1EDB3","#FFFFD9","#76C9BD","#D4EEB3","#C2E7B5","#C5E8B4","#66C2BF","#A3DAB8","#C7E9B4","#4AB8C3","#92D4B9","#8BD1BA","#3AACC3","#B9E3B6","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9","#58BDC1","#8CD2BA","#63C1C0","#39AAC3","#B3E0B6","#49B8C3","#A4DAB8","#39ABC3","#45B7C4","#C4E8B4","#43B6C4","#B2E0B6","#B8E3B6","#4DB9C3","#B9E3B6","#BEE5B5","#82CEBB","#8DD2BA","#3CAFC3","#B1E0B7","#4BB9C3","#54BBC2","#D7EFB3","#FFFFD9","#3AADC3","#A2DAB8","#3EB2C4","#5BBEC1","#5ABDC1","#A4DAB8","#FFFFD9","#A3DAB8","#C2E7B5","#C5E8B4","#FFFFD9","#BFE6B5","#46B7C3","#BFE5B5","#95D5B9","#58BDC1","#72C7BD","#B8E2B6"],"weight":5,"opacity":1,"fill":true,"fillColor":["#C8EAB4","#86CFBA","#82CEBB","#6BC4BF","#79CABC","#89D0BA","#C2E7B5","#FFFFD9","#92D4B9","#6FC6BE","#57BCC2","#A7DCB8","#73C7BD","#6CC4BE","#7ECCBB","#33A3C2","#7CCCBC","#94D4B9","#72C7BD","#C7E9B4","#79CABC","#A0D9B8","#A0D9B8","#7DCCBB","#6BC4BF","#8ED2BA","#A3DAB8","#99D6B9","#ACDEB7","#9DD8B8","#83CEBB","#A4DBB8","#84CFBB","#BCE4B5","#84CFBB","#AADDB7","#BDE5B5","#7FCDBB","#7FCDBB","#A4DBB8","#B9E3B6","#CCEBB4","#ABDDB7","#8AD1BA","#80CDBB","#91D3BA","#A3DAB8","#A9DCB7","#85CFBB","#7CCCBC","#7DCCBB","#8AD1BA","#58BDC1","#74C8BD","#ADDEB7","#A5DBB8","#8FD2BA","#93D4B9","#BCE4B5","#9CD8B9","#CAEAB4","#A3DAB8","#D3EDB3","#37A9C3","#BDE5B5","#B6E2B6","#B1E0B6","#3DB1C3","#7FCDBB","#8CD1BA","#ACDEB7","#63C1C0","#B8E3B6","#FFFFD9","#FFFFD9","#41B6C4","#C2E7B5","#3DB0C3","#9ED8B8","#DBF1B3","#BBE4B5","#A9DCB7","#65C1C0","#54BCC2","#62C0C0","#7BCBBC","#D2EDB3","#CBEBB4","#9ED8B8","#D2EDB3","#5DBFC1","#CDEBB4","#FFFFD9","#A2DAB8","#37A8C3","#80CDBB","#FFFFD9","#9DD8B8","#D9F0B3","#FFFFD9","#50BAC2","#CAEAB4","#C5E8B4","#D1EDB3","#E4F5B2","#5ABEC1","#C2E7B5","#2698C1","#D3EEB3","#84CFBB","#7ECCBB","#FFFFD9","#BFE6B5","#2B9CC1","#D1EDB3","#FFFFD9","#76C9BD","#D4EEB3","#C2E7B5","#C5E8B4","#66C2BF","#A3DAB8","#C7E9B4","#4AB8C3","#92D4B9","#8BD1BA","#3AACC3","#B9E3B6","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9","#58BDC1","#8CD2BA","#63C1C0","#39AAC3","#B3E0B6","#49B8C3","#A4DAB8","#39ABC3","#45B7C4","#C4E8B4","#43B6C4","#B2E0B6","#B8E3B6","#4DB9C3","#B9E3B6","#BEE5B5","#82CEBB","#8DD2BA","#3CAFC3","#B1E0B7","#4BB9C3","#54BBC2","#D7EFB3","#FFFFD9","#3AADC3","#A2DAB8","#3EB2C4","#5BBEC1","#5ABDC1","#A4DAB8","#FFFFD9","#A3DAB8","#C2E7B5","#C5E8B4","#FFFFD9","#BFE6B5","#46B7C3","#BFE5B5","#95D5B9","#58BDC1","#72C7BD","#B8E2B6"],"fillOpacity":1},null,null,["Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","San Francisco County","Mariposa County","Tehama County","Merced County","Inyo County","Marin County","Mono County","Monterey County","Nevada County","San Luis Obispo County","Madera County","Merced County","Contra Costa County","Yolo County","Nevada County","Santa Clara County","Shasta County","Del Norte County","Sutter County","Marin County","Kings County","Mono County","Alameda County","Sacramento County","Lake County","San Mateo County","Kern County","Los Angeles County","Imperial County","Ventura County","Sonoma County","Modoc County","San Mateo County","Sonoma County","Placer County","Del Norte County","Kings County","Butte County","San Diego County","Alpine County","Alameda County","Contra Costa County","Shasta County","Lassen County","Yuba County","San Diego County","Stanislaus County","Santa Barbara County","San Bernardino County","Riverside County","Tulare County","San Benito County","Napa County","Riverside County","Humboldt County","Solano County","Tuolumne County","San Francisco County","Trinity County","Santa Cruz County","Santa Cruz County","Orange County","Imperial County","Siskiyou County","Lassen County","El Dorado County","Placer County","Colusa County","Tulare County","Stanislaus County","Yolo County","Humboldt County","Humboldt County","Trinity County","Siskiyou County","Modoc County","Orange County","Ventura County","Fresno County","Fresno County","Sacramento County","Butte County","Mariposa County","Amador County","Plumas County","San Luis Obispo County","San Bernardino County","Sutter County","Yuba County","Amador County","Glenn County","Glenn County","Kern County","Inyo County","Mendocino County","El Dorado County","Colusa County","Santa Clara County","Alpine County","Calaveras County","Madera County","Monterey County","Sierra County","Santa Barbara County","Sierra County","Plumas County","Mendocino County","Tuolumne County","Napa County","Lake County","San Joaquin County","San Joaquin County","Los Angeles County","San Benito County","Tehama County","Solano County","Calaveras County"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[[37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,39.663077,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,37.423939,34.672496,37.224522,37.052057,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.268646,37.640732,38.596494,38.441847,38.202946,39.178048,37.913598,41.738952,38.775788,36.754708,39.597469,40.698187,33.041824,36.508867,35.345591,36.078649,39.09737,40.669961,34.322796,37.212682,38.073204,37.575843,39.436309,37.186923,41.583941,37.933321,36.216903,38.508289,39.295924,33.704545,39.061511,40.002158,33.745425,38.465312,36.605701,34.844701,33.035423,37.746542,37.932727,35.390034,34.672496,37.224522,40.758306,39.576693,41.588337,38.288602,38.527617,37.553933,39.033545,40.12057,40.64749,36.220455,38.024398,34.472949,38.68661,39.663077,37.423939,37.052057,39.268646],[-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-121.592018,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-122.322358,-120.012285,-121.684758,-121.982295,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.340045,-121.874174,-119.817775,-120.650063,-120.544084,-122.229505,-121.912906,-123.889508,-120.518515,-119.641323,-122.383535,-123.863888,-115.364568,-117.407146,-118.73308,-119.803263,-122.744185,-120.589843,-118.221787,-119.74733,-122.720114,-119.896002,-123.377828,-120.704731,-120.718904,-118.882552,-121.227026,-122.327344,-120.761996,-117.756775,-120.710638,-120.838191,-115.994935,-121.31769,-121.060133,-116.176459,-116.737646,-122.430647,-121.264123,-120.400968,-120.012285,-121.684758,-122.03692,-120.505271,-122.533844,-121.913023,-122.887364,-120.989631,-121.687339,-122.226655,-123.104847,-118.792225,-119.946028,-119.076397,-121.897776,-121.592018,-122.322358,-121.982295,-121.340045],500,null,"American Indian and Alaskan Native",{"interactive":true,"className":"","stroke":true,"color":["#65C2BF","#31A2C2","#2596C1","#1D91C0","#1E92C0","#26479D","#70C6BE","#26439B","#1E92C0","#3BADC3","#2459A5","#2367AC","#2378B4","#1F92C0","#2697C1","#2FA0C2","#081D58","#225EA8","#34A4C2","#38AAC3","#FFFFD9","#5FBFC0","#39ABC3","#3CAFC3","#236FB0","#4EBAC3","#3BAEC3","#60C0C0","#2186BB","#38AAC3","#1F8DBE","#2370B1","#236EB0","#2E9EC2","#2E9EC2","#2378B5","#2193C0","#FFFFD9","#50BAC2","#2899C1","#A2DAB8","#31A2C2","#3FB3C4","#227DB7","#2260A9","#2B9CC1","#236FB0","#40B4C4","#78CABC","#6DC5BE","#2183BA","#2376B3","#236CAF","#2D9DC1","#3EB2C4","#3AACC3","#1F8BBD","#2A9AC1","#233390","#FFFFD9","#2553A3","#2281B9","#0B1F5D","#808080","#4CB9C3","#253493","#51BBC2","#1F8DBE","#26439B","#091E5A","#253594","#26489E","#2261A9","#2375B3","#808080","#808080","#208ABD","#2194C0","#FFFFD9","#54BCC2","#112369","#2367AC","#0E2163","#1F8BBD","#39ABC3","#2459A5","#26429A","#2375B3","#808080","#2260A9","#264DA0","#13256D","#2378B4","#243392","#2367AD","#FFFFD9","#2798C1","#236DAF","#FFFFD9","#2369AD","#3BAEC3","#35A6C2","#263996","#26449B","#253896","#264B9F","#2456A4","#5ABEC1","#172876","#26419A","#808080","#236CAF","#3DB1C4","#2093C0","#21318C","#3FB3C4","#9ED8B8","#FFFFD9","#5BBEC1","#FFFFD9","#2280B8","#FFFFD9","#808080","#66C2BF","#65C2C0","#1E92C0","#59BDC1","#33A4C2","#51BBC2","#40B5C4","#41B6C4","#2187BB","#37A8C3","#44B7C4","#4EBAC3","#FFFFD9","#FFFFD9","#98D6B9","#67C3BF","#43B6C4","#7DCCBB","#48B8C3","#FFFFD9","#FFFFD9","#47B8C3","#75C9BD","#2183B9","#36A7C3","#71C7BE","#40B4C4","#3EB1C4","#40B5C4","#FFFFD9","#88D0BA","#3BAEC3","#4CB9C3","#4AB8C3","#2373B2","#FFFFD9","#77C9BD","#92D4B9","#C9EAB4","#74C8BD","#5FBFC0","#2FA0C2","#3FB3C4","#44B7C4","#FFFFD9","#46B7C4","#61C0C0","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9"],"weight":5,"opacity":1,"fill":true,"fillColor":["#65C2BF","#31A2C2","#2596C1","#1D91C0","#1E92C0","#26479D","#70C6BE","#26439B","#1E92C0","#3BADC3","#2459A5","#2367AC","#2378B4","#1F92C0","#2697C1","#2FA0C2","#081D58","#225EA8","#34A4C2","#38AAC3","#FFFFD9","#5FBFC0","#39ABC3","#3CAFC3","#236FB0","#4EBAC3","#3BAEC3","#60C0C0","#2186BB","#38AAC3","#1F8DBE","#2370B1","#236EB0","#2E9EC2","#2E9EC2","#2378B5","#2193C0","#FFFFD9","#50BAC2","#2899C1","#A2DAB8","#31A2C2","#3FB3C4","#227DB7","#2260A9","#2B9CC1","#236FB0","#40B4C4","#78CABC","#6DC5BE","#2183BA","#2376B3","#236CAF","#2D9DC1","#3EB2C4","#3AACC3","#1F8BBD","#2A9AC1","#233390","#FFFFD9","#2553A3","#2281B9","#0B1F5D","#808080","#4CB9C3","#253493","#51BBC2","#1F8DBE","#26439B","#091E5A","#253594","#26489E","#2261A9","#2375B3","#808080","#808080","#208ABD","#2194C0","#FFFFD9","#54BCC2","#112369","#2367AC","#0E2163","#1F8BBD","#39ABC3","#2459A5","#26429A","#2375B3","#808080","#2260A9","#264DA0","#13256D","#2378B4","#243392","#2367AD","#FFFFD9","#2798C1","#236DAF","#FFFFD9","#2369AD","#3BAEC3","#35A6C2","#263996","#26449B","#253896","#264B9F","#2456A4","#5ABEC1","#172876","#26419A","#808080","#236CAF","#3DB1C4","#2093C0","#21318C","#3FB3C4","#9ED8B8","#FFFFD9","#5BBEC1","#FFFFD9","#2280B8","#FFFFD9","#808080","#66C2BF","#65C2C0","#1E92C0","#59BDC1","#33A4C2","#51BBC2","#40B5C4","#41B6C4","#2187BB","#37A8C3","#44B7C4","#4EBAC3","#FFFFD9","#FFFFD9","#98D6B9","#67C3BF","#43B6C4","#7DCCBB","#48B8C3","#FFFFD9","#FFFFD9","#47B8C3","#75C9BD","#2183B9","#36A7C3","#71C7BE","#40B4C4","#3EB1C4","#40B5C4","#FFFFD9","#88D0BA","#3BAEC3","#4CB9C3","#4AB8C3","#2373B2","#FFFFD9","#77C9BD","#92D4B9","#C9EAB4","#74C8BD","#5FBFC0","#2FA0C2","#3FB3C4","#44B7C4","#FFFFD9","#46B7C4","#61C0C0","#FFFFD9","#FFFFD9","#FFFFD9","#FFFFD9"],"fillOpacity":1},null,null,["Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Butte County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","San Mateo County","Santa Barbara County","Santa Clara County","Santa Cruz County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Yuba County","Alameda County","Alpine County","Amador County","Calaveras County","Colusa County","Contra Costa County","Del Norte County","El Dorado County","Fresno County","Glenn County","Humboldt County","Imperial County","Inyo County","Kern County","Kings County","Lake County","Lassen County","Los Angeles County","Madera County","Marin County","Mariposa County","Mendocino County","Merced County","Modoc County","Mono County","Monterey County","Napa County","Nevada County","Orange County","Placer County","Plumas County","Riverside County","Sacramento County","San Benito County","San Bernardino County","San Diego County","San Francisco County","San Joaquin County","San Luis Obispo County","Santa Barbara County","Santa Clara County","Shasta County","Sierra County","Siskiyou County","Solano County","Sonoma County","Stanislaus County","Sutter County","Tehama County","Trinity County","Tulare County","Tuolumne County","Ventura County","Yolo County","Butte County","San Mateo County","Santa Cruz County","Yuba County"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addLayersControl","args":[["White","Hispanic","Black","Asian and Pacific Islander","American Indian and Alaskan Native"],[],{"collapsed":true,"autoZIndex":true,"position":"topright"}]},{"method":"addLegend","args":[{"colors":["#FFFFD9 , #FFFFD9 0%, #DDF1B2 17.9468772433597%, #89D1BA 35.8937544867193%, #39AAC3 53.840631730079%, #236BAE 71.7875089734386%, #203089 89.7343862167983%, #081D58 "],"labels":["0","100","200","300","400","500"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomleft","type":"numeric","title":"heart diseases death rate per 100,000 population based on race in CA","extra":{"p_1":0,"p_n":0.897343862167983},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[33.035423,41.738952],"lng":[-123.889508,-115.364568]}},"evals":[],"jsHooks":[]}</script>
+<p>Within race stratification, for the white, Stanislaus County had relatively higher heart disease death rate during 2014. The death rate fell in the middle range. For the Hispanic, Kern county had relatively higher heart disease death rate during 2014. The death rate fell in a lower range. For the Black, Lassen County, Kings County and Tulare County had relatively higher heart disease death rate during 2014. The death rate fell in the higher range. For Asian and Pacific Islander, Mariposa County had relatively higher heart disease death rate during 2014. The death rate fell in the lower middle range. For American Indian and Alaska Native, Shasta County had relatively higher heart disease death rate during 2014. The death rate fall in the middle range. The possible reasons included uneven distribution of race/ethnicity, education level, income level and access to medical services.</p>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>There were association between both gender and race stratification and heart disease death rate in California during 2014. For gender stratification, female had a lower death rate than male in general. The female in Kern County, Tulare County and Glenn County had relatively higher heart disease death rate. The male in Tulare County and Tuolumne County had relatvely higher heart disease death rate. From a overall view, Kern County and Tulare County had relatively higher heart disease death rate. The possible reason might be that different county had different medical services level. The overall trend show that counties along the coast had lower death rate, which might due to higher developmental level. For race/ethnicity level, the Black had the highest death rate. especially in Lassen County, Kings County and Tulare County. The White and American Indian and Alaska Native had middle level of death rate, but slightly higher in Stanislaus County and Shasta County correspondingly. The Asian and Pacific Islander had a lower middle death range, and slghtly higher in Mariposa County. The Hispanic had the lowest death rate, and slightly higher in Kern county. The possible reasons may be different in distribution of races, education level, income level, healthcare availability and access to medical services.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -59,7 +59,7 @@ Data variables included:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r package, warning=FALSE}
+```{r, warning=FALSE}
 #library R packages
 library(gsubfn)
 library(data.table)
@@ -99,7 +99,6 @@ Based on the summary table, only Data_Value contained NAs which referred to insu
 ```{r remove_NAs}
 #remove NAs
 heartdisease$Data_Value <- heartdisease$Data_Value %>% replace_na(0)
-knitr::kable(summary(is.na(heartdisease)))
 ```
 
 The summary table indicated that there were no NAs anymore. 
@@ -109,8 +108,6 @@ Based on the main question, California data was selected
 ```{r data_selection, warning=FALSE}
 # selec data in California
 heartdisease_CA <- heartdisease[LocationAbbr == 'CA' & GeographicLevel == 'County']
-knitr::kable(head(heartdisease_CA))
-knitr::kable(dim(heartdisease_CA))
 ```
 
 The Location 1 contained latitude and longitude information in one column, it would efficient to separate them into two columns.
@@ -130,7 +127,6 @@ Convert Data_Value, lat, lon into num class
 heartdisease_CA$Data_Value <- as.numeric(heartdisease_CA$Data_Value)
 heartdisease_CA$lat <- as.numeric(heartdisease_CA$lat)
 heartdisease_CA$lon <- as.numeric(heartdisease_CA$lon)
-knitr::kable(head(heartdisease_CA))
 ```
 
 CA_gender contained the heart disease mortality data based on gender category. CA_race contained the heart disease mortality data based on race category. CA_overall contained the data without any stratification.
@@ -139,12 +135,9 @@ CA_gender contained the heart disease mortality data based on gender category. C
 # select data under each stratification
 CA_gender <- heartdisease_CA[Stratification1 != 'Overall' & Stratification2 == 'Overall']
 knitr::kable(dim(CA_gender))
-knitr::kable(head(CA_gender))
 CA_race <- heartdisease_CA[Stratification2 != 'Overall' & Stratification1 == 'Overall']
-knitr::kable(head(CA_race))
 knitr::kable(dim(CA_race))
 CA_overall <- heartdisease_CA[Stratification1 == 'Overall' & Stratification2 == 'Overall']
-knitr::kable(head(CA_overall))
 knitr::kable(dim(CA_overall))
 ```
 
@@ -186,8 +179,8 @@ The histogram of death rate for different race/ethnicity was constructed, and in
 
 ```{r eval = knitr::is_html_output(exclude = "gfm")}
 # create subset of male and female
-CA_male <- CA_gender[Stratification1 == 'Male']
-CA_female <- CA_gender[Stratification1 == 'Female']
+CA_male <- heartdisease_CA[Stratification1 == 'Male']
+CA_female <- heartdisease_CA[Stratification1 == 'Female']
 
 temp.pal1 <- colorNumeric(palette = "YlGnBu", domain = CA_male$Data_Value, na.color = "#808080")
 # visualize by leaflet
@@ -216,8 +209,22 @@ map_gender <- leaflet() %>%
           title='heart diseases death rate per 100,000 population based on gender in CA', opacity=1)
 map_gender
 ```
-```{r}
-plot_ly(CA_gender)
+
+```{r, warning=FALSE}
+CA_man <- CA_gender[Stratification1 == 'Male']%>% select(LocationDesc, Data_Value, Stratification1)
+CA_women <- CA_gender[Stratification1 == 'Female'] %>% select(LocationDesc, Data_Value, Stratification1)
+CA_joint <- merge(CA_man, CA_women, by.x = "LocationDesc", 
+             by.y = "LocationDesc", all.x = TRUE, all.y = FALSE)
+CA_joint <- rename(CA_joint, male_mortality = Data_Value.x, female_mortality = Data_Value.y)
+CA_joint$Gap <- (CA_joint$male_mortality - CA_joint$female_mortality)
+fig <- plot_ly(CA_joint, x = ~male_mortality, y = ~female_mortality, text = ~LocationDesc, type = 'scatter', mode = 'markers',size = ~Gap, color = ~LocationDesc, colors = 'Paired',
+        sizes = c(7, 25),
+        marker = list(opacity = 0.5, sizemode = 'diameter'))
+fig <- fig %>% layout(title = 'Gender Gap on heart disease death rate among CA county',
+         xaxis = list(showgrid = FALSE),
+         yaxis = list(showgrid = FALSE))
+
+fig
 ```
 
 Within gender stratification and female category, Kern County, Tulare County and Glenn County had relatively higher heart disease death rate during 2014. For male category, Tulare County and Tuolumne County had relatvely higher heart disease death rate during 2014. Without any stratification, kern County and Tulare County had relatively higher heart disease death rate during 2014. The counties along the coast generally had a lower death rate than the counties not along the coast. The possible reason might be the different medical levels in each county.  Compare the general trend, male had a higher death rate than female in general, which also indicated by histogram before. The possible reason might be the different lifestyle. 

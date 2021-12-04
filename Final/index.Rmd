@@ -200,7 +200,7 @@ url <- 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-countie
 counties <- rjson::fromJSON(file=url)
 ```
 
-## Mortality rate chaning pattern in each county in CA {.tabset}
+### Mortality rate chaning pattern in each county in CA {.tabset}
 
 ```{r}
 fig_male <- plot_ly(text = CA_gender$LocationDesc)

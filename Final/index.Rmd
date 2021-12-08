@@ -85,14 +85,6 @@ opts_chunk$set(
   class.source = "code-r")
 ```
 
-```{css, echo = FALSE}
-.code-r { /* Code block */
-  font-size: 15px;
-}
-.code-r-small { /* Code block */
-  font-size: 10px;
-}
-```
 
 ## Read In Data
 ```{r download_data}
@@ -447,6 +439,6 @@ There were association between both gender and race stratification and heart dis
 
 # Download the Full report
 
-The full PDF version could be Downloaded [**here**](https://github.com/caroline0029/PM566-project/tree/main/Final/raw/main/report.pdf)
+The full PDF version could be Downloaded [**here**](https://github.com/caroline0029/PM566-project/blob/main/Final/report.pdf)
 
 # Citation

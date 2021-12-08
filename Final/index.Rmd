@@ -440,6 +440,7 @@ fig_indian_alaskan
 
 ## {-}
 
+
 # Conclusion
 
 There were association between both gender and race stratification and heart disease death rate in California during 2014. For gender stratification, female had a lower death rate than male in general. The female in Kern County, Tulare County and Glenn County had relatively higher heart disease death rate. The male in Tulare County and Tuolumne County had relatvely higher heart disease death rate. From a overall view, Kern County and Tulare County had relatively higher heart disease death rate. The possible reason might be that different county had different medical services level. The overall trend show that counties along the coast had lower death rate, which might due to higher developmental level. For race/ethnicity level, the Black had the highest death rate. especially in  Lassen County, Kings County and Tulare County. The White and American Indian and Alaska Native had middle level of death rate, but slightly higher in Stanislaus County and Shasta County correspondingly. The Asian and Pacific Islander had a lower middle death range, and slghtly higher in Mariposa County. The Hispanic had the lowest death rate, and slightly higher in Kern county. The possible reasons may be different in distribution of races, education level, income level, healthcare availability and access to medical services. 

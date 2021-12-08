@@ -1,0 +1,53 @@
+---
+title: "Pattern of Heart Disease Mortality Rate Within Gender and Race Stratification in California During 2014"
+author: "Caroline He"
+date: "12/7/2021"
+output: 
+  pdf_document: default
+  html_document: FALSE
+---
+
+# Introduction 
+
+
+## Data Background
+
+This dataset was from National Vital Statistics System and focused on heart disease mortality data in US during 2014. The data was collected in county level. Here were the basic information of this dataset:
+
+* 2013 to 2015, 3-year average. Rates are age-standardized. County rates are spatially smoothed. The data can be viewed by gender and race/ethnicity. Data source: National Vital Statistics System. Additional data, maps, and methodology can be viewed on the Interactive Atlas of Heart Disease and Stroke http://www.cdc.gov/dhdsp/maps/atlas
+
+### Main question: How gender and races associate with heart disease death rate in CA during 2014?
+
+Sub-question
+* what was the association between gender and heart disease death rate in California?
+* what was the association between race and heart disease death rate in California?
+* Which county had relatively higher heart disease death rate within gender stratification?
+* which county had relatively higher heart disease death rate within race stratification?
+
+# Methods 
+
+The data was obtained from CDC chronic disease and health promotion data & indicators:
+https://chronicdata.cdc.gov/Heart-Disease-Stroke-Prevention/Heart-Disease-Mortality-Data-Among-US-Adults-35-by/i2vk-mgdh
+
+Data variables included: 
+
+* Year: Center of 3-year average
+* LocationAbbr: State, Territory, or US postal abbreviation
+* LocationDesc: county name
+* GeographicLevel: county/state
+* DataSource
+* Class: Cardiovascular Diseases
+* Topic: Heart Disease Mortality
+* Data_Value: heart disease death rate
+* Data_Value_Unit: per 100,000 population
+* Data_Value_Type: Age-adjusted, Spatially Smoothed, 3-year Average Rate
+* Data_Value_Footnote_Symbol
+* Data_Value_Footnote	
+* StratificationCategory1: gender
+* Stratification1: gender categories
+* StratificationCategory2: race
+* Stratification2: race categories (White, Black Hispanic, Asian and Pacific Islander, American Indian and Alaskan Native)
+* TopicID	
+* LocationID	
+* FIPS code
+* Location 1: lat&lon

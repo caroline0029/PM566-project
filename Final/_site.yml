@@ -5,6 +5,13 @@ navbar:
   left:
     - text: "Home"
       href: index.html
+  right:
+    - icon: fas fa-table
+      href: https://chronicdata.cdc.gov/api/views/i2vk-mgdh/rows.csv
+    - icon: fas fa-file-pdf
+      href: https://github.com/caroline0029/PM566-project/blob/main/Final/report.pdf
+    - icon: fa-github fa-lg
+      href: https://github.com/caroline0029
 output:
   html_document:
-    theme: paper
+    theme: simplex

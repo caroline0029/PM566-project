@@ -1,23 +1,24 @@
 ---
-title: "PM566 Final Project"
-author: "Caroline0029"
+title: "Pattern of Heart Disease Mortality Rate Within Gender and Race Stratification in California During 2014"
+author: "Caroline He"
 output: 
     html_document:
         toc: TRUE
         toc_float: TRUE
+        code_folding: hide
 ---
 
-This is my PM566 Final Project website.
+Latest Update:`r format(Sys.time())`
 
-## Introduction 
-#### (provide background on your dataset and formulated question)
+# Introduction 
 
-##### Data Background
+## Data Background
+
 This dataset was from National Vital Statistics System and focused on heart disease mortality data in US during 2014. The data was collected in county level. Here were the basic information of this dataset:
 
 * 2013 to 2015, 3-year average. Rates are age-standardized. County rates are spatially smoothed. The data can be viewed by gender and race/ethnicity. Data source: National Vital Statistics System. Additional data, maps, and methodology can be viewed on the Interactive Atlas of Heart Disease and Stroke http://www.cdc.gov/dhdsp/maps/atlas
 
-##### Main question: How gender and races associate with heart disease death rate in CA during 2014?
+### Main question: How gender and races associate with heart disease death rate in CA during 2014?
 
 Sub-question
 
@@ -26,8 +27,7 @@ Sub-question
 * Which county had relatively higher heart disease death rate within gender stratification?
 * which county had relatively higher heart disease death rate within race stratification?
 
-## Methods 
-#### (include how and where the data were acquired, how you cleaned and wrangled the data, what tools you used for data exploration)
+# Methods 
 
 The data was obtained from CDC chronic disease and health promotion data & indicators:
 https://chronicdata.cdc.gov/Heart-Disease-Stroke-Prevention/Heart-Disease-Mortality-Data-Among-US-Adults-35-by/i2vk-mgdh
@@ -55,13 +55,10 @@ Data variables included:
 * FIPS code
 * Location 1: lat&lon
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r, warning=FALSE}
+```{r, include=FALSE, message=FALSE, echo=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 #library R packages
-library(gsubfn)
+#library(gsubfn)
 library(data.table)
 library(dplyr)
 library(dtplyr)
@@ -70,180 +67,220 @@ library(readr)
 library(ggplot2)
 library(leaflet)
 library(sf)
-library(raster)
 library(plotly)
 library(rjson)
+library(tidyverse)
+library(knitr)
+
+opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  eval=TRUE,
+  echo = TRUE,
+  cache = FALSE,
+  fig.width = 7, 
+  fig.align = 'center',
+  fig.asp = 0.618,
+  out.width = "700px",
+  class.source = "code-r")
 ```
 
+```{css, echo = FALSE}
+.code-r { /* Code block */
+  font-size: 15px;
+}
+.code-r-small { /* Code block */
+  font-size: 10px;
+}
+```
+
+## Read In Data
 ```{r download_data}
 # download and read in the data
 if (!file.exists("Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv")) {
-download.file("https://chronicdata.cdc.gov/api/views/i2vk-mgdh/rows.csv?accessType=DOWNLOAD", 
-              method="libcurl", 
-              timeout = 60
-              )
-}
+download.file(
+  url = "https://chronicdata.cdc.gov/api/views/i2vk-mgdh/rows.csv", 
+  destfile = "Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv",
+  method="libcurl", 
+  timeout = 60
+)}
 heartdisease <- data.table::fread("Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv")
 ```
 
-```{r check_NAs}
-# check for head, tail and whether NAs exist
-knitr::kable(dim(heartdisease))
-knitr::kable(summary(is.na(heartdisease)))
-```
-
-Based on the summary table, only Data_Value contained NAs which referred to insufficient data. I decided to replace NAs by 0 for later convenience. 
-
-```{r remove_NAs}
-#remove NAs
-heartdisease$Data_Value <- heartdisease$Data_Value %>% replace_na(0)
-```
-
-The summary table indicated that there were no NAs anymore. 
-
-Based on the main question, California data was selected
+## Data Wrangling
 
 ```{r data_selection, warning=FALSE}
+#knitr::kable(summary(is.na(heartdisease)))
+heartdisease$Data_Value <- heartdisease$Data_Value %>% replace_na(0)
+
+
 # selec data in California
 heartdisease_CA <- heartdisease[LocationAbbr == 'CA' & GeographicLevel == 'County']
-```
-
-The Location 1 contained latitude and longitude information in one column, it would efficient to separate them into two columns.
-
-```{r, warning = FALSE}
 # remove "()" in strings
 heartdisease_CA$`Location 1` <- gsub("[()]", "", heartdisease_CA$`Location 1`)
 # separate lat and lon variables
 heartdisease_CA <- heartdisease_CA %>%
   separate(col = 'Location 1', into=c('lat', 'lon'), sep=',')
-```
-
-Convert Data_Value, lat, lon into num class
-
-```{r, warning=FALSE}
 # convert chr to num
 heartdisease_CA$Data_Value <- as.numeric(heartdisease_CA$Data_Value)
 heartdisease_CA$lat <- as.numeric(heartdisease_CA$lat)
 heartdisease_CA$lon <- as.numeric(heartdisease_CA$lon)
-```
 
-CA_gender contained the heart disease mortality data based on gender category. CA_race contained the heart disease mortality data based on race category. CA_overall contained the data without any stratification.
-
-```{r data_stratification}
 # select data under each stratification
 CA_gender <- heartdisease_CA[Stratification1 != 'Overall' & Stratification2 == 'Overall']
 CA_race <- heartdisease_CA[Stratification2 != 'Overall' & Stratification1 == 'Overall']
 ```
 
-Since there were 58 counties in CA in total, the dataset seemed to be reasonable. 
-
-## Preliminary Results 
-
-#### (provide summary statistics in tabular form and publication-quality figures, take a look at the kable function from knitr to write nice tables in Rmarkdown)
-
-```{r}
-# create histogram to find association between gender and death rate
-p1 <- ggplot(CA_gender, mapping = aes(x = Data_Value)) + 
-    geom_histogram(mapping = aes (fill = Stratification1)) +
-    scale_fill_brewer(palette = "BuPu") +
-    labs(
-      x = "death rate per 100,000 population",
-      y = "Count",
-      title = "Histogram of death rate by gender in CA")
-ggplotly(p1)
-p1 <- NULL
-```
-
-The histogram of death rate for both male and female was constructed, and insufficient data was represented by 0. From the graph, distributions of heart disease death rate for both male and female were slightly skewed to the left. However, the distribution of female located more left compared to the distribution of male, and only a small portion overlapped. It indicated that the female had a lower heart disease death rate compared to the male in general in CA during 2014.
-
-```{r}
-# create histogram to find association between race and death rate
-p2 <- ggplot(CA_race, mapping = aes(x = Data_Value)) + 
-    geom_histogram(mapping = aes (fill = Stratification2)) +
-    scale_fill_brewer(palette = "BuPu") +
-    labs(
-      x = "death rate per 100,000 population",
-      y = "Count",
-      title = "Histogram of death rate by race in CA")
-ggplotly(p2)
-p2 <- NULL 
-```
-
-The histogram of death rate for different race/ethnicity was constructed, and insufficient data was represented by 0. From the graph, both Hispanic and Asian and Pacific Islander seemed to be skewed to the left and had one modal. The White, Black and American Indian and Alaska Native seemed to have two modals. Among all races in CA during 2014, the Black had the highest heart disease death rate. The White and American Indian and Alaska Native were next and had similar distribution of death rate. The White seemed to have a slightly more right distribution. The Asian and Pacific Islander had a fourth highest heart disease death rate. The Hispanic had the lowest heart disease death rate. 
+### Gender Data Handling
 
 ```{r, warning=FALSE}
-CA_male <- CA_gender[Stratification1 == 'Male']%>% select(LocationDesc, Data_Value, Stratification1)
-CA_female <- CA_gender[Stratification1 == 'Female'] %>% select(LocationDesc, Data_Value, Stratification1)
-CA_joint <- merge(CA_male, CA_female, by.x = "LocationDesc", 
+CA_male <- CA_gender[Stratification1 == 'Male']%>% 
+  select(LocationDesc, Data_Value)%>%
+  rename(value_male = Data_Value)
+CA_female <- CA_gender[Stratification1 == 'Female'] %>% 
+  select(LocationDesc, Data_Value)%>%
+  rename(value_female = Data_Value)
+gender_joint <- merge(CA_male, CA_female, by.x = "LocationDesc", 
              by.y = "LocationDesc", all.x = TRUE, all.y = FALSE)
-CA_joint <- rename(CA_joint, male_mortality = Data_Value.x, female_mortality = Data_Value.y)
-CA_joint$Gap <- (CA_joint$male_mortality - CA_joint$female_mortality)
-fig_gendergap <- plot_ly(CA_joint, x = ~male_mortality, y = ~female_mortality, text = ~LocationDesc, type = 'scatter', mode = 'markers',size = ~Gap, color = ~LocationDesc, colors = 'Paired',
-        sizes = c(7, 30),
-        marker = list(opacity = 0.5, sizemode = 'diameter'))
-fig_gendergap <- fig_gendergap %>% layout(title = 'Gender Gap on heart disease death rate among CA county',
-         xaxis = list(showgrid = FALSE),
-         yaxis = list(showgrid = FALSE))
+gender_joint$Gap <- (gender_joint$value_male - gender_joint$value_female)
 
-fig_gendergap
-```
-
-```{r}
 df <- read.csv('https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv')
 fips <- filter(df,state == "CA")
 
-CA_gender <- merge(CA_joint, fips, by.x = "LocationDesc", 
+CA_gender1 <- merge(gender_joint, fips, by.x = "LocationDesc", 
              by.y = "name", all.x = TRUE, all.y = FALSE)
-CA_gender <- CA_gender %>% 
+CA_gender1 <- CA_gender1 %>% 
   mutate(fips = ifelse(row_number()>= 1,paste0("0", fips)))
 url <- 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'
 counties <- rjson::fromJSON(file=url)
 ```
 
-### Mortality rate chaning pattern in each county in CA {.tabset}
+### Race Data Handling
+
+```{r, warning=FALSE}
+# create race subset 
+# this part wiil be updated in the final project
+CA_white <- CA_race[Stratification2 == 'White']%>% 
+  select(LocationDesc, Data_Value)%>% 
+  rename(value_white = Data_Value)
+CA_hispanic <- CA_race[Stratification2 == 'Hispanic'] %>% 
+  select(LocationDesc, Data_Value) %>%
+  rename(value_hispanic = Data_Value)
+CA_black <- CA_race[Stratification2 == 'Black'] %>% 
+  select(LocationDesc, Data_Value) %>%
+  rename(value_black = Data_Value, )
+CA_asian_pacific <- CA_race[Stratification2 == 'Asian and Pacific Islander'] %>% 
+  select(LocationDesc, Data_Value) %>%
+  rename(value_asian_pacific = Data_Value)
+CA_indian_alaskan <- CA_race[Stratification2 == 'American Indian and Alaskan Native']%>% 
+  select(LocationDesc, Data_Value) %>%
+  rename(value_indian_alaskan = Data_Value)
+data_list <- list(CA_white, CA_hispanic, CA_black, CA_asian_pacific, CA_indian_alaskan) 
+CA_race1 <- data_list %>% reduce(inner_join, by = "LocationDesc")
+
+CA_race1 <- merge(CA_race1, fips, by.x = "LocationDesc", 
+             by.y = "name", all.x = TRUE, all.y = FALSE)
+CA_race1 <- CA_race1 %>% 
+  mutate(fips = ifelse(row_number()>= 1,paste0("0", fips)))
+```
+
+# Preliminary Results 
+
+## Mortality rate distribution within sex and race stratification in CA {.tabset}
 
 ```{r}
-fig_male <- plot_ly(text = CA_gender$LocationDesc)
+# create distribution graph graph to find association between gender and death rate
+p1 <- ggplot(CA_gender, aes(Data_Value, fill = Stratification1))+ 
+     geom_density(alpha = 0.5) +
+     scale_fill_brewer(palette = "Set3") +
+     labs(
+      x = "death rate per 100,000 population",
+      y = "Density",
+      title = "Distribution of death rate by gender in CA")
+p1 <- ggplotly(p1)
+
+# create distribution graph to find association between race and death rate
+p2 <- ggplot(CA_race, aes(Data_Value, fill = Stratification2))+ 
+     geom_density(alpha = 0.5) +
+     scale_fill_brewer(palette = "Set3") +
+     labs(
+      x = "death rate per 100,000 population",
+      y = "Density",
+      title = "Distribution of death rate by race in CA")
+p2 <- ggplotly(p2)
+```
+
+### Mortality rate pattern under sex stratification in CA during 2014
+
+```{r echo=FALSE}
+p1
+```
+
+### Mortality rate pattern under race stratification in CA during 2014
+
+```{r echo=FALSE}
+p2
+```
+
+## {-}
+
+## Mortality rate Gap Between Male group and Female group in CA
+
+```{r, warning = FALSE}
+fig_gendergap <- plot_ly(gender_joint, x = ~value_male, y = ~value_female, text = ~LocationDesc, type = 'scatter', mode = 'markers',size = ~Gap, color = ~LocationDesc, colors = 'Paired',
+        sizes = c(5, 45),
+        marker = list(opacity = 0.5, sizemode = 'diameter'))
+fig_gendergap <- fig_gendergap %>% 
+  layout(title = 'Gender Gap on heart disease death rate among CA county',
+         xaxis = list(title = 'Mortality rate/100,000 population (male)', showgrid = FALSE),
+         yaxis = list(title = 'Mortality rate/100,000 population (female)', showgrid = FALSE))
+
+fig_gendergap
+```
+
+## Mortality Rate Pattern in each county in CA (gender stratification) {.tabset}
+
+```{r}
+## Pattern map for male group
+fig_male <- plot_ly( text=~paste(paste("County: ", CA_gender1$LocationDesc),
+                      paste("Death rate/100,000:", CA_gender1$value_male),
+                      sep="<br>"),hoverinfo="text")
 fig_male <- fig_male %>% add_trace(
     type="choroplethmapbox",
     geojson = counties,
-    locations = CA_gender$fips,
-    z = CA_gender$male_mortality,
+    locations = CA_gender1$fips,
+    z = CA_gender1$value_male,
     colorscale="Viridis",
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
       width=0),
-      opacity=0.5
-    )
-  )
-fig_male <- fig_male %>% layout(
+      opacity=0.5))%>% 
+  layout(
     mapbox=list(
       style="carto-positron",
-      zoom =2,
-      center=list(lon= -95.71, lat=37.09))
-  )
+      zoom =4,
+      center=list(lon= -119.42, lat=36.78)))
 
-fig_female <- plot_ly(text = CA_gender$LocationDesc)
+fig_female <- plot_ly( text=~paste(paste("County: ", CA_gender1$LocationDesc),
+                      paste("Death rate/100,000:", CA_gender1$value_female),
+                      sep="<br>"),hoverinfo="text")
 fig_female <- fig_female %>% add_trace(
     type="choroplethmapbox",
     geojson = counties,
-    locations = CA_gender$fips,
-    z = CA_gender$female_mortality,
+    locations = CA_gender1$fips,
+    z = CA_gender1$value_female,
     colorscale="Viridis",
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
       width=0),
-      opacity=0.5
-    )
-  )
-fig_female <- fig_female %>% layout(
+      opacity=0.5))%>% 
+  layout(
     mapbox=list(
       style="carto-positron",
-      zoom =2,
-      center=list(lon= -95.71, lat=37.09))
-  )
+      zoom =4,
+      center=list(lon= -119.42, lat=36.78)))
 ```
 
 ### Male group mortality rate in CA during 2014
@@ -260,22 +297,155 @@ fig_female
 
 ## {-}
 
-Within gender stratification and female category, Kern County, Tulare County and Glenn County had relatively higher heart disease death rate during 2014. For male category, Tulare County and Tuolumne County had relatvely higher heart disease death rate during 2014. Without any stratification, kern County and Tulare County had relatively higher heart disease death rate during 2014. The counties along the coast generally had a lower death rate than the counties not along the coast. The possible reason might be the different medical levels in each county.  Compare the general trend, male had a higher death rate than female in general, which also indicated by histogram before. The possible reason might be the different lifestyle. 
+## Mortality Rate Pattern in Each County in CA During 2014(Race Stratification) {.tabset}
 
-```{r, warning=FALSE}
-# create race subset 
-# this part wiil be updated in the final project
-CA_white <- heartdisease_CA[Stratification2 == 'White']
-CA_hispanic <- heartdisease_CA[Stratification2 == 'Hispanic']
-CA_black <- heartdisease_CA[Stratification2 == 'Black']
-CA_asian_pacific <- heartdisease_CA[Stratification2 == 'Asian and Pacific Islander']
-CA_indian_alaskan <- heartdisease_CA[Stratification2 == 'American Indian and Alaskan Native']
+```{r}
+## Pattern map for White group
+fig_white <- plot_ly(
+  text=~paste(paste("County: ", CA_race1$LocationDesc),
+                      paste("Death rate/100,000:", CA_race1$value_white),
+                      sep="<br>"),hoverinfo="text")
+fig_white <- fig_white %>% 
+  add_trace(
+    type="choroplethmapbox",
+    geojson = counties,
+    locations = CA_race1$fips,
+    z = CA_race1$value_white,
+    colorscale="Viridis",
+    zmin = 150,
+    zmax = 500,
+    marker=list(line=list(
+      width=0),
+      opacity=0.5)) %>% 
+  layout(
+    mapbox=list(
+      style="carto-positron",
+      zoom =4,
+      center=list(lon= -119.42, lat=36.78)))
+
+# Pattern map for Hispanic group
+fig_hispanic <- plot_ly(
+  text=~paste(paste("County: ", CA_race1$LocationDesc),
+                      paste("Death rate/100,000:", CA_race1$value_hispanic),
+                      sep="<br>"),hoverinfo="text")
+fig_hispanic <- fig_hispanic %>% add_trace(
+    type="choroplethmapbox",
+    geojson = counties,
+    locations = CA_race1$fips,
+    z = CA_race1$value_hispanic,
+    colorscale="Viridis",
+    zmin = 150,
+    zmax = 500,
+    marker=list(line=list(
+      width=0),
+      opacity=0.5))%>% 
+  layout(
+    mapbox=list(
+      style="carto-positron",
+      zoom =4,
+      center=list(lon= -119.42, lat=36.78)))
+
+# Pattern map for Black group
+fig_black <- plot_ly(text=~paste(paste("County: ", CA_race1$LocationDesc),
+                      paste("Death rate/100,000:", CA_race1$value_black),
+                      sep="<br>"),hoverinfo="text")
+fig_black <- fig_black %>% add_trace(
+    type="choroplethmapbox",
+    geojson = counties,
+    locations = CA_race1$fips,
+    z = CA_race1$value_black,
+    colorscale="Viridis",
+    zmin = 150,
+    zmax = 500,
+    marker=list(line=list(
+      width=0),
+      opacity=0.5))%>% 
+  layout(
+    mapbox=list(
+      style="carto-positron",
+      zoom =4,
+      center=list(lon= -119.42, lat=36.78)))
+
+# Pattern map for Asian and Pacific Islander group
+fig_asian_pacific <- plot_ly(text=~paste(paste("County: ", CA_race1$LocationDesc),
+                      paste("Death rate/100,000:", CA_race1$value_asian_pacific),
+                      sep="<br>"),hoverinfo="text")
+fig_asian_pacific <- fig_asian_pacific %>% add_trace(
+    type="choroplethmapbox",
+    geojson = counties,
+    locations = CA_race1$fips,
+    z = CA_race1$value_asian_pacific,
+    colorscale="Viridis",
+    zmin = 150,
+    zmax = 500,
+    marker=list(line=list(
+      width=0),
+      opacity=0.5))%>% 
+  layout(
+    mapbox=list(
+      style="carto-positron",
+      zoom =4,
+      center=list(lon= -119.42, lat=36.78)))
+
+fig_indian_alaskan <- plot_ly(text=~paste(paste("County: ", CA_race1$LocationDesc),
+                      paste("Death rate/100,000:", CA_race1$value_indian_alaskan),
+                      sep="<br>"),hoverinfo="text")
+fig_indian_alaskan <- fig_indian_alaskan %>% add_trace(
+    type="choroplethmapbox",
+    geojson = counties,
+    locations = CA_race1$fips,
+    z = CA_race1$value_indian_alaskan,
+    colorscale="Viridis",
+    zmin = 150,
+    zmax = 500,
+    marker=list(line=list(
+      width=0),
+      opacity=0.5))%>% 
+  layout(
+    mapbox=list(
+      style="carto-positron",
+      zoom =4,
+      center=list(lon= -119.42, lat=36.78)))
 ```
 
-Within race stratification, for the white, Stanislaus County had relatively higher heart disease death rate during 2014. The death rate fell in the middle range. For the Hispanic, Kern county had relatively higher heart disease death rate during 2014. The death rate fell in a lower range. For the Black, Lassen County, Kings County and Tulare County had relatively higher heart disease death rate during 2014. The death rate fell in the higher range. For Asian and Pacific Islander, Mariposa County had relatively higher heart disease death rate during 2014. The death rate fell in the lower middle range. For American Indian and Alaska Native, Shasta County had relatively higher heart disease death rate during 2014. The death rate fall in the middle range. 
-The possible reasons included uneven distribution of race/ethnicity, education level, income level and access to medical services. 
+### White
 
-## Conclusion
+```{r echo=FALSE}
+fig_white
+```
+
+### Hispanic
+
+```{r echo=FALSE}
+fig_hispanic
+```
+
+### Black
+
+```{r echo=FALSE}
+fig_black
+```
+
+### Asian and Pacific Islander
+
+```{r echo=FALSE}
+fig_asian_pacific
+```
+
+### American Indian and Alaskan Native
+
+```{r echo=FALSE}
+fig_indian_alaskan
+```
+
+## {-}
+
+# Conclusion
 
 There were association between both gender and race stratification and heart disease death rate in California during 2014. For gender stratification, female had a lower death rate than male in general. The female in Kern County, Tulare County and Glenn County had relatively higher heart disease death rate. The male in Tulare County and Tuolumne County had relatvely higher heart disease death rate. From a overall view, Kern County and Tulare County had relatively higher heart disease death rate. The possible reason might be that different county had different medical services level. The overall trend show that counties along the coast had lower death rate, which might due to higher developmental level. For race/ethnicity level, the Black had the highest death rate. especially in  Lassen County, Kings County and Tulare County. The White and American Indian and Alaska Native had middle level of death rate, but slightly higher in Stanislaus County and Shasta County correspondingly. The Asian and Pacific Islander had a lower middle death range, and slghtly higher in Mariposa County. The Hispanic had the lowest death rate, and slightly higher in Kern county. The possible reasons may be different in distribution of races, education level, income level, healthcare availability and access to medical services. 
 
+# Download the Full report
+
+The full PDF version could be Downloaded [**here**](https://github.com/caroline0029/PM566-project/tree/main/Final/raw/main/report.pdf)
+
+# Citation

@@ -9,6 +9,7 @@ output:
 
 # Introduction 
 
+
 ## Data Background
 
 This dataset was from National Vital Statistics System and focused on heart disease mortality data in US during 2014. The data was collected in county level. Here were the basic information of this dataset:

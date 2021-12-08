@@ -242,7 +242,7 @@ fig_male <- fig_male %>% add_trace(
     geojson = counties,
     locations = CA_gender1$fips,
     z = CA_gender1$value_male,
-    colorscale="Viridis",
+    colorscale="Magma",
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -262,7 +262,7 @@ fig_female <- fig_female %>% add_trace(
     geojson = counties,
     locations = CA_gender1$fips,
     z = CA_gender1$value_female,
-    colorscale="Viridis",
+    colorscale="Magma",
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -303,7 +303,7 @@ fig_white <- fig_white %>%
     geojson = counties,
     locations = CA_race1$fips,
     z = CA_race1$value_white,
-    colorscale="Viridis",
+    colorscale="Magma",
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -325,7 +325,7 @@ fig_hispanic <- fig_hispanic %>% add_trace(
     geojson = counties,
     locations = CA_race1$fips,
     z = CA_race1$value_hispanic,
-    colorscale="Viridis",
+    colorscale="Magma",
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -346,7 +346,7 @@ fig_black <- fig_black %>% add_trace(
     geojson = counties,
     locations = CA_race1$fips,
     z = CA_race1$value_black,
-    colorscale="Viridis",
+    colorscale="Magma",
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -367,7 +367,7 @@ fig_asian_pacific <- fig_asian_pacific %>% add_trace(
     geojson = counties,
     locations = CA_race1$fips,
     z = CA_race1$value_asian_pacific,
-    colorscale="Viridis",
+    colorscale="Magma",
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -387,7 +387,7 @@ fig_indian_alaskan <- fig_indian_alaskan %>% add_trace(
     geojson = counties,
     locations = CA_race1$fips,
     z = CA_race1$value_indian_alaskan,
-    colorscale="Viridis",
+    colorscale="Magma",
     zmin = 150,
     zmax = 500,
     marker=list(line=list(

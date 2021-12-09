@@ -76,16 +76,9 @@ opts_chunk$set(
 
 The original data source was included in the Method part.
 
-```{r download_data}
-# download and read in the data
-if (!file.exists("Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv")) {
-download.file(
-  url = "https://chronicdata.cdc.gov/api/views/i2vk-mgdh/rows.csv", 
-  destfile = "Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv",
-  method="libcurl", 
-  timeout = 60
-)}
-heartdisease <- data.table::fread("Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv")
+```{r}
+heartdisease <- "/Users/hms/Desktop/PM566-project/Final/Data/Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County.csv"
+heartdisease <- data.table::fread(heartdisease)
 ```
 
 ## Data Wrangling
@@ -469,3 +462,5 @@ The full PDF version could be downloaded [**here**](https://github.com/caroline0
 
 1. [**Centers for Disease Control and Prevention. Underlying Cause of Death, 1999–2018. CDC WONDER Online Database.**](https://wonder.cdc.gov/ucd-icd10.html) Atlanta, GA: Centers for Disease Control and Prevention; 2018. Accessed March 12, 2020.
 2. Virani SS, Alonso A, Aparicio HJ, Benjamin EJ, Bittencourt MS, Callaway CW, et al. [**Heart disease and stroke statistics—2021 update: a report from the American Heart Associationexternal.**](https://www.ahajournals.org/doi/10.1161/CIR.0000000000000950) Circulation. 2021;143:e254–e743.
+
+***

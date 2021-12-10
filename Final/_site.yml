@@ -5,6 +5,8 @@ navbar:
   left:
     - text: "Home"
       href: index.html
+    - text: "Analysis Report"
+      href: report.html
   right:
     - icon: fas fa-table
       href: https://chronicdata.cdc.gov/api/views/i2vk-mgdh/rows.csv

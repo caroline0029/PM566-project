@@ -51,8 +51,6 @@ library(dtplyr)
 library(tidyr)
 library(readr)
 library(ggplot2)
-library(leaflet)
-library(sf)
 library(plotly)
 library(rjson)
 library(tidyverse)
@@ -83,21 +81,22 @@ heartdisease <- data.table::fread(heartdisease)
 
 ## Data Wrangling
 
-The data set was cleaned according to EDA checklists. There were several "NAs" under "Data_value" variable, which was due to insufficient information. It was replaced by 0, which was used for later data visualization. Since the data set included data from entire country, only data in California was selected for analysis. After data wrangling, datasets `CA_race` and `CA_gender` were created and each of them was merged with FIPS code, whose source was introduced in the Introduction session.
+The data set was cleaned according to EDA checklists. There were several "NAs" under "Data_value" variable, which was due to insufficient information. It was replaced by median value of mortality rate, which was used for later data visualization. Since the data set included data from entire country, only data in California was selected for analysis. After data wrangling, datasets `CA_race` and `CA_gender` were created and each of them was merged with FIPS code, whose source was introduced in the Introduction session.
 
 The gender data included variables: county name as `LocationDesc`, male mortality rate as `value_male`, female mortality rate as `value_female` and FIPS code for each county as `fips`.
 
 The race data included variables: county name as `LocationDesc`, the White mortality rate as `value_white`, the Hispanic mortality rate as `value_hispanic`, the Black mortality rate as `value_black`, the Asian and Pacific Islander mortality rate as `value_asian_pacific`, the American Indian and Alaskan Native mortality rate as `value_indian_alaskan`  and FIPS code for each county as `fips`.
 
 ```{r data_selection, warning=FALSE}
-heartdisease$Data_Value <- heartdisease$Data_Value %>% replace_na(0)
 # select data in California
 heartdisease_CA <- heartdisease[LocationAbbr == 'CA' & GeographicLevel == 'County']
 # convert data into num format
 heartdisease_CA$Data_Value <- as.numeric(heartdisease_CA$Data_Value)
 # select data under each stratification
 CA_gender <- heartdisease_CA[Stratification1 != 'Overall' & Stratification2 == 'Overall']
+CA_gender$Data_Value[is.na(CA_gender$Data_Value)] <- median(CA_gender$Data_Value, na.rm = TRUE)                                          
 CA_race <- heartdisease_CA[Stratification2 != 'Overall' & Stratification1 == 'Overall']
+CA_race$Data_Value[is.na(CA_race$Data_Value)] <- median(CA_race$Data_Value, na.rm = TRUE) 
 
 # gender data handling
 CA_male <- CA_gender[Stratification1 == 'Male']%>% 
@@ -238,6 +237,7 @@ fig_male <- fig_male %>% add_trace(
     locations = CA_gender1$fips,
     z = CA_gender1$value_male,
     colorscale="Cividis",
+    reversescale = TRUE,
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -258,6 +258,7 @@ fig_female <- fig_female %>% add_trace(
     locations = CA_gender1$fips,
     z = CA_gender1$value_female,
     colorscale="Cividis",
+    reversescale=TRUE,
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -284,10 +285,10 @@ fig_female
 
 ## {-}
 
-Based on the map, the male group had lighter color compared to the female in each county in general, which was the same as conclusions above.  
+Based on the map, the male group had darker color compared to the female in each county in general, which was the same as conclusions above.  
 
 * Among all the counties for the male, the mortality rates of **Kern County**(476.9/100,000 population), **Yuba County**(506.1/100,000 population), **Lake County**(473.5/100,000 population) and **Stanislaus County**(469.4/100,000 population) were relatively higher. 
-* For the female, the mortality rates of **Kern County**(319.7/100,000 population) and **Stanislaus County**(315.4/100,000 population) were relatively higher.  
+* For the female, the mortality rates of **Tulare County**(303.3/100,000 population), **Kern County**(319.7/100,000 population) and **Stanislaus County**(315.4/100,000 population) were relatively higher.  
 From geographical perspective, the county along the coast had relatively lower heart disease death rate for both male and female groups. 
 
 ## Mortality Rate Pattern in Each County in CA During 2014(Race Stratification) {.tabset}
@@ -308,6 +309,7 @@ fig_white <- fig_white %>%
     locations = CA_race1$fips,
     z = CA_race1$value_white,
     colorscale="Cividis",
+    reversescale = TRUE,
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -330,6 +332,7 @@ fig_hispanic <- fig_hispanic %>% add_trace(
     locations = CA_race1$fips,
     z = CA_race1$value_hispanic,
     colorscale="Cividis",
+    reversescale = TRUE,
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -351,6 +354,7 @@ fig_black <- fig_black %>% add_trace(
     locations = CA_race1$fips,
     z = CA_race1$value_black,
     colorscale="Cividis",
+    reversescale = TRUE,
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -372,6 +376,7 @@ fig_asian_pacific <- fig_asian_pacific %>% add_trace(
     locations = CA_race1$fips,
     z = CA_race1$value_asian_pacific,
     colorscale="Cividis",
+    reversescale = TRUE,
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -392,6 +397,7 @@ fig_indian_alaskan <- fig_indian_alaskan %>% add_trace(
     locations = CA_race1$fips,
     z = CA_race1$value_indian_alaskan,
     colorscale="Cividis",
+    reversescale = TRUE,
     zmin = 150,
     zmax = 500,
     marker=list(line=list(
@@ -436,7 +442,7 @@ fig_indian_alaskan
 
 ## {-}
 
-Based on the map, the White, the Black and the American Indian and Alaskan Native had lighter color compared to the Hispanic and the Asian and Pacific Islander in each county in general, which was the same as conclusions before.  
+Based on the map, the White, the Black and the American Indian and Alaskan Native had darker color compared to the Hispanic and the Asian and Pacific Islander in each county in general, which was the same as conclusions before.  
 
 * Among all the counties for the White, the mortality rates of **Kern County**(438.6/100,000 population), **Yuba County**(447.3/100,000 population), and **Stanislaus County**(436.7/100,000 population) were relatively higher.  
 * For the Hispanic group, the mortality rate of **Kern County**(296.2/100,000 population) was relatively higher.
@@ -448,7 +454,7 @@ Based on the map, the White, the Black and the American Indian and Alaskan Nativ
 
 # Conclusion
 
-There were association between both gender and race stratification and heart disease death rate in California during 2014. For gender stratification, female had a lower death rate than male in general. The female in Kern County, Tulare County and Glenn County had relatively higher heart disease death rate. The male in Tulare County and Tuolumne County had relatvely higher heart disease death rate. From a overall view, Kern County and Tulare County had relatively higher heart disease death rate. The possible reason might be that different county had different medical services level. The overall trend show that counties along the coast had lower death rate, which might due to higher developmental level. For race/ethnicity level, the Black had the highest death rate. especially in  Lassen County, Kings County and Tulare County. The White and American Indian and Alaska Native had middle level of death rate, but slightly higher in Stanislaus County and Shasta County correspondingly. The Asian and Pacific Islander had a lower middle death range, and slghtly higher in Mariposa County. The Hispanic had the lowest death rate, and slightly higher in Kern county. The possible reasons may be different in distribution of races, education level, income level, healthcare availability and access to medical services. 
+In this study, the pattern of heart disease death rate in CA during 2014 was examined under gender and race stratification. In general, the male had a higher death rates compared to the female. The possible explanation was different level of smoking and alcohol intakes and adaptive ablity facing stressed events. For the race stratification, the White, the Black and the American Indian and Alaskan Native groups had a higher death rates compared to the Hispanic and the Asian and Pacific Islander. The possible reason might be the hemoglobin level and discrepancies of CA health coverage. Based on the map distribution, there were several counties including Kern County, Tulare County and Stanislaus County, whose heart disease death rate was distinctly higher compared to the other counties in California. All of three counties had relatively higher obesity rate which was one of leading cause towards heart disease. The possible reason included unsafe environment for physical activity, increased age and poor access towards healthy food. 
 
 ***
 

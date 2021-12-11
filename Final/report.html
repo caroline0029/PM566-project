@@ -17,7 +17,7 @@
 <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -30,9 +30,6 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -224,69 +221,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -294,16 +228,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -362,10 +286,10 @@ div.tocify {
 
 
 <div style="page-break-after: always;"></div>
-<p>Latest Update: 2021-12-09 21:12:17</p>
+<p>Latest Update: 2021-12-10 21:06:22</p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>Heart disease is the No. 1 cause of death in the world and the one of the leading cause of death for men, women, and people of different races in the United States<sup>1</sup>. The term “heart disease” includes several types of heart conditions. In the United States, the most common type of heart disease is coronary artery disease (CAD), which can lead to heart attack<sup>1</sup>. In fact, one person dies every 36 seconds in the United States from cardiovascular disease.About 659,000 people in the United States die from heart disease each year, which is in every 4 deaths<sup>1</sup>. In addition to being the leading causes of death, heart disease and stroke result in serious illness and disability, decreased quality of life and costs the United States a lot each year, which includes the cost of health care services, medicines, and lost productivity due to death. The major risk factors of heart disease death were divided in to two categories: disease risks and behavior risks. Disease risk factors include high blood pressure, high cholesterol level, diabetes, depression and obesity. And the behavior risks contained smoking, unhealthy eating diet habit(high fat, salt and sugar), poor exercises and excessive alcohol intakes. In this study,The main question was: How were gender and races associated with heart disease death rate in California during 2014? The dataset was from National Vital Statistics System. By examining potential risk factors including gender and race in this study, the pattern of heart disease mortality rate under stratification could be revealed to some extent. The pattern of certain groups of population was used for their corresponding characteristics and behaviors analysis in the discussion session. With the summary of high death rate groups’ characteristics, the community and related organization could advocate and developed complementary heart disease prevention policies.</p>
+<p>Heart disease is the No. 1 cause of death in the world and the one of the leading cause of death for men, women, and people of different races in the United States<sup>1</sup>. The term “heart disease” includes several types of heart conditions. In the United States, the most common type of heart disease is coronary artery disease (CAD), which can lead to heart attack<sup>1</sup>. In fact, one person dies every 36 seconds in the United States from cardiovascular disease. About 659,000 people in the United States die from heart disease each year, which is in every 4 deaths<sup>1</sup>. In addition to being the leading causes of death, heart disease and stroke result in serious illness and disability, decreased quality of life and costs the United States a lot each year, which includes the cost of health care services, medicines, and lost productivity due to death. The major risk factors of heart disease death were divided in to two categories: disease risks and behavior risks. Disease risk factors include high blood pressure, high cholesterol level, diabetes, depression and obesity. And the behavior risks contained smoking, unhealthy eating diet habit(high fat, salt and sugar), poor exercises and excessive alcohol intakes. In this study, the main question was: How were gender and races associated with heart disease death rate in California during 2014? The dataset was from National Vital Statistics System. By examining potential risk factors including gender and race in this study, the pattern of heart disease mortality rate under stratification could be revealed to some extent. The pattern of certain groups in the entire population was used for their corresponding characteristics and behaviors analysis in the discussion session. With the summary of high death rate groups’ characteristics, the community and related organization could advocate and developed complementary heart disease prevention policies.</p>
 </div>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
@@ -377,7 +301,7 @@ div.tocify {
 </ul>
 <div id="data-background" class="section level2">
 <h2>Data Background</h2>
-<p>The raw data of heart disease death rate was obtained from CDC Division for Heart Disease and Stroke Prevention, Interactive Atlas of Heart Disease and Stroke. And it was organized into <a href="https://chronicdata.cdc.gov/Heart-Disease-Stroke-Prevention/Heart-Disease-Mortality-Data-Among-US-Adults-35-by/i2vk-mgdh"><em>heartdisease dataset</em></a> by National Vital Statistics System and. It was created on February 9, 2017 and updated on July 9, 2018. The dataset was collected in county level and focused on mortality rate in 2014. There were 59.1k rows and 19 columns in total. Here were the detailed information of this dataset:</p>
+<p>The raw data of heart disease death rate was obtained from CDC Division for Heart Disease and Stroke Prevention, Interactive Atlas of Heart Disease and Stroke. And it was organized into <a href="https://chronicdata.cdc.gov/Heart-Disease-Stroke-Prevention/Heart-Disease-Mortality-Data-Among-US-Adults-35-by/i2vk-mgdh"><em>heartdisease dataset</em></a> by National Vital Statistics System. It was created on February 9, 2017 and updated on July 9, 2018. The dataset was collected in county level and focused on mortality rate in 2014. There were 59.1k rows and 19 columns in total. Here were the detailed information of this dataset:</p>
 <ul>
 <li>The collected time was from 2013 to 2015 and used 3-year average rates. The mortality rates were age-standardized. County rates are spatially smoothed. The data could be viewed by gender and race/ethnicity. Data source: National Vital Statistics System. Additional data, maps, and methodology can be viewed on the <a href="http://www.cdc.gov/dhdsp/maps/atlas"><em>Interactive Atlas of Heart Disease and Strok</em></a></li>
 </ul>
@@ -574,7 +498,7 @@ div.tocify {
 <p>
 <img src="report_files/figure-html/distribution_gender.png" title="fig:" style="width:60.0%" alt="Figure1:Mortality rate under gender stratification in CA during 2014" />
 <p>
-<p>In <strong>Figure 2</strong>, the x-axis contained the heart disease mortality rates for five race categories of each county in CA during 2014 and y-axis contain the matched proportion. Based on the image, the distribution of the White, the Black and the American Indian and Alaskan Native groups lied on the right of those of the Hispanic and the Asian and Pacific Islander groups, which indicated general trends that the White, the Black and the American Indian and Alaskan Native groups had a higher death rates compared to the other in CA during 2014.</p>
+<p>In <strong>Figure 2</strong>, the x-axis contained the heart disease mortality rates for five race categories of each county in CA during 2014 and y-axis contain the matched proportion. Based on the image, the distribution of the White, the Black and the American Indian and Alaskan Native groups lied on the right of those of the Hispanic and the Asian and Pacific Islander groups, which indicated general trends that the White, the Black and the American Indian and Alaskan Native groups had a higher death rates compared to the other in CA during 2014.(For more information, please visit the <a href="https://caroline0029.github.io/PM566-project/Final/index.html#Mortality_rate_distribution_within_sex_and_race_stratification_in_CA"><strong>interactive figure</strong></a>)</p>
 <p><em>Figure 2:Mortality rate under race stratification in CA during 2014</em></p>
 <p>
 <img src="report_files/figure-html/distribution_race.png" title="fig:" style="width:60.0%" alt="Figure 2:Mortality rate under race stratification in CA during 2014" />
@@ -587,13 +511,13 @@ div.tocify {
 <p>
 <img src="report_files/figure-html/gender_gap.png" title="fig:" style="width:60.0%" alt="Figure 3:Mortality Rate Gap Between Male group and Female group" />
 <p>
-<p>From the graph, the heart disease mortality rates for several counties were high regardless gender categories, including Kern County, Tulare County and Stanislaus County. To further unmask the pattern, an inspection of geographical factors was necessary. (For more information, please visit the <a href="https://caroline0029.github.io/PM566-project/Final/#Mortality_Rate_Gap_Between_Male_group_and_Female_group_in_CA"><strong>interactive figure</strong></a>))</p>
+<p>From the graph, the heart disease mortality rates for several counties were high regardless gender categories, including Kern County, Tulare County and Stanislaus County. To further unmask the pattern, an inspection of geographical factors was necessary. (For more information, please visit the <a href="https://caroline0029.github.io/PM566-project/Final/#Mortality_Rate_Gap_Between_Male_group_and_Female_group_in_CA"><strong>interactive figure</strong></a>)</p>
 </div>
 <div id="mortality-rate-pattern-in-each-county-in-ca" class="section level2">
 <h2>Mortality Rate Pattern in each county in CA</h2>
 <div id="gender-stratification" class="section level3">
 <h3>Gender stratification</h3>
-<p>The <code>Cholorpath map</code> was a practical way to observe mortality rate pattern in geographical level. The magnitude of heart death rate in California during 2014 was presented by the color gradient. The map indicated that male groups relatively higher death rate compared to female groups, which was the same as conclusions above. Take a meticulous inspection on this map, it could be concluded that among all the counties for the male, the mortality rates of Kern County(476.9/100,000 population), Yuba County(506.1/100,000 population), Lake County(473.5/100,000 population) and Stanislaus County(469.4/100,000 population) were relatively higher. For the female, the mortality rates of Tulare County(303.3/100,000 population), Kern County(319.7/100,000 population) and Stanislaus County(315.4/100,000 population) were relatively higher. From geographical perspective, the county along the coast had relatively lower heart disease death rate for both male and female groups. (For more information, please visit the <a href="file:///Users/hms/Desktop/PM566-project/Final/index.html#Mortality_Rate_Pattern_in_each_county_in_CA_(gender_stratification)"><strong>interactive figure</strong></a>)</p>
+<p>The <code>Cholorpath map</code> was a practical way to observe mortality rate pattern in a geographical level. The magnitude of heart death rate in California during 2014 was presented by the color gradient. The map indicated that male groups had relatively higher death rates compared to female groups, which was the same as conclusion above. Take a meticulous inspection on this map, it could be concluded that among all the counties for the male, the mortality rates of Kern County(476.9/100,000 population), Yuba County(506.1/100,000 population), Lake County(473.5/100,000 population) and Stanislaus County(469.4/100,000 population) were relatively higher. For the female, the mortality rates of Tulare County(303.3/100,000 population), Kern County(319.7/100,000 population) and Stanislaus County(315.4/100,000 population) were relatively higher. From the geographical perspective, the counties along the coast had relatively lower heart disease death rate for both male and female groups. (For more information, please visit the <a href="file:///Users/hms/Desktop/PM566-project/Final/index.html#Mortality_Rate_Pattern_in_each_county_in_CA_(gender_stratification)"><strong>interactive figure</strong></a>)</p>
 <p><em>Figure 4:Mortality Rate Pattern(male)         Figure 5:Mortality Rate Pattern(female)</em></p>
 <p>
 <img src="report_files/figure-html/male_map.png" style="width:40.0%" alt="Figure 4:Mortality Rate Pattern in each county in CA(male)" /> <img src="report_files/figure-html/female_map.png" style="width:40.0%" alt="Figure 5: Mortality Rate Pattern in each county in CA(female)" />
@@ -601,7 +525,7 @@ div.tocify {
 </div>
 <div id="race-stratification" class="section level3">
 <h3>Race stratification</h3>
-<p>Map <strong>figures 6-10</strong> indicated that the White, the Black and the American Indian and Alaskan Native had relatively higher heart disease death rate in CA during 2014 compared to the Hispanic and the Asian and Pacific Islander in each county in general, which was the same as conclusions before. For the Hispanic group, the mortality rate of Kern County(296.2/100,000 population) was relatively higher. For the Asian and Pacific Islander group, the mortality rates of Lake County(313.5/100,000 population), Glenn County(259/100,000 population) and Tulare County(507.5/100,000 population) were relatively higher.</p>
+<p>Map <strong>figures 6-10</strong> indicated that the White, the Black and the American Indian and Alaskan Native had relatively higher heart disease death rates in CA during 2014 compared to the Hispanic and the Asian and Pacific Islander in each county in general, which was the same as conclusions before. For the Hispanic group, the mortality rate of Kern County(296.2/100,000 population) was relatively higher. For the Asian and Pacific Islander group, the mortality rates of Lake County(313.5/100,000 population), Glenn County(259/100,000 population) and Tulare County(507.5/100,000 population) were relatively higher.</p>
 <p><em>Figure 6: Death Rate Map(the Hispanic)         Figure 7: Death Rate Map(the Asian and Pacific Islander)</em></p>
 <p>
 <img src="report_files/figure-html/hispanic_map.png" style="width:40.0%" alt="6:the Hispanic" /> <img src="report_files/figure-html/asian_pacific_map.png" style="width:40.0%" alt="7:the Asian and Pacific Islander" />
@@ -611,17 +535,17 @@ div.tocify {
 <p>
 <img src="report_files/figure-html/white_map.png" style="width:35.0%" alt="8:the White" /> <img src="report_files/figure-html/black_map.png" style="width:35.0%" alt="9:the Black" /> <img src="report_files/figure-html/indian_alaskan_map.png" style="width:35.0%" alt="10:the American Indian and Alaskan Native" />
 <p>
-<p>From geographical perspective, the county along the coast had relatively lower heart disease death rate for all race categories. Based on the map investigation, there were several counties which always stayed on the top of the lists no matter how to stratify the variables, including: Kern County, Tulare County and Stanislaus County. A further inspection would be conducted in the next section.</p>
+<p>From geographical perspectives, the county along the coast had relatively lower heart disease death rate for all race categories. Based on the map investigation, there were several counties which always stayed on the top of the lists no matter how to stratify the variables, including: Kern County, Tulare County and Stanislaus County. A further inspection would be conducted in the next section.</p>
 </div>
 </div>
 </div>
 <div id="discussion" class="section level1">
 <h1>Discussion</h1>
-<p>As for the different heart disease death rate distribution among the male and the female, the possible reasons could be addressed from two dimensions: behavioral coronary and psychosocial risk factors<sup>3</sup>. It appeared that smoking and excess alcohol consuming behaviors were more prevalent among the male compared to the female<sup>3</sup>. Since tobacco and and alcohol were portions of major risk leading to heart disease, It was reasonable that mortality rate of the male was higher than the female. From physchosocial scale, the male might be less adaptive facing stressed events and acted in a more aggressive way, contributing increased risks of heart disease<sup>3</sup>. Besides, referred to some study, the female were more knowledgeable than men to risk factors, which may also lead to gender differences<sup>4</sup>. For the discrepancies of heart disease death rate among racial categories, the possible reasons could be investigated from internal and external dimensions. For the internal dimension, there was a statistically significant association (p &lt; 0.001) between low hemoglobin level and increased heart disease rate, which differed significantly by race (p = .025) according to the study<sup>5</sup>. Though the actual pattern of hemoglobin for each racial category still need to be worked on, hemoglobin level might be a factor. Besides, the discrepancies in health coverage in California may also be the reason. As for the geographical level, the prevalence of adult obesity in Tulare County was well above the state’s prevalence, which might related to environmental factors such as the availability of fresh fruits and vegetables or safe walking trails<sup>6</sup>. As for Kern County and Stanislaus County, it also had discernible high obesity than the average value of the US. The possible factors included inactivity, increased age, unsafe neighborhood and poor access to health food<sup>7,8</sup>.</p>
+<p>As for the different heart disease death rate distribution among the male and the female, the possible reasons could be addressed from two dimensions: behavioral and psychosocial risk factors<sup>3</sup>. It appeared that smoking and excess alcohol consuming behaviors were more prevalent among the male compared to the female<sup>3</sup>. Since tobacco and alcohol were major risk leading to heart disease, it was reasonable that mortality rate of the male was higher than the female. From physchosocial scale, the male might be less adaptive facing stressed events and acted in a more aggressive way, contributing increased risks of heart disease<sup>3</sup>. Besides, referred to some study, the female were more knowledgeable than men to risk factors, which may also lead to gender differences<sup>4</sup>. For the discrepancies of heart disease death rate among racial categories, the possible reasons could be investigated from internal and external dimensions. For the internal dimension, there was a statistically significant association (p &lt; 0.001) between low hemoglobin level and increased heart disease rate, which differed significantly by race (p = .025) according to the study<sup>5</sup>. Though the actual pattern of hemoglobin for each racial category still need to be worked on, hemoglobin level might be a factor. Besides, the discrepancies in health coverage in California may also be the reason. As for the geographical level, the prevalence of adult obesity in Tulare County was well above the state’s prevalence, which might related to environmental factors such as the availability of fresh fruits and vegetables or safe walking trails<sup>6</sup>. As for Kern County and Stanislaus County, it also had discernible high obesity than the average value of the US. The possible factors included inactivity, increased age, unsafe neighborhood and poor access to health food<sup>7,8</sup>.</p>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
-<p>In this study, the pattern of heart disease death rate in CA during 2014 was examined under gender and race stratification. In general, the male had a higher death rates compared to the female. The possible explanation was different level of smoking and alcohol intakes and adaptive ablity facing stressed events. For the race stratification, the White, the Black and the American Indian and Alaskan Native groups had a higher death rates compared to the Hispanic and the Asian and Pacific Islander. The possible reason might be the hemoglobin level and discrepancies of CA health coverage. Based on the map distribution, there were several counties including Kern County, Tulare County and Stanislaus County, whose heart disease death rate was distinctly higher compared to the other counties in California. All of three counties had relatively higher obesity rate which was one of leading cause towards heart disease. The possible reason included unsafe environment for physical activity, increased age and poor access towards healthy food.</p>
+<p>In this study, the pattern of heart disease death rate in CA during 2014 was examined under gender and race stratification. In general, the male had a higher death rates compared to the female. The possible explanation was different level of smoking and alcohol intakes and adaptive ability facing stressed events. For the race stratification, the White, the Black and the American Indian and Alaskan Native groups had a higher death rates compared to the Hispanic and the Asian and Pacific Islander. The possible reason might be the hemoglobin level and discrepancies of CA health coverage. Based on the map distribution, there were several counties including Kern County, Tulare County and Stanislaus County, whose heart disease death rate was distinctly higher compared to the other counties in California. All of three counties had relatively higher obesity rate which was one of leading cause towards heart disease. The possible reason included unsafe environment for physical activity, increased age and poor access towards healthy food.</p>
 </div>
 <div id="citation" class="section level1">
 <h1>Citation</h1>
@@ -638,35 +562,7 @@ div.tocify {
 </div>
 
 
-  <footer class="footer-container white-text-container">
-  <div class="container">
-    <div class="row">
 
-     
-      <div class="col-xs-12">
-        <h6>PM566 Final Project (FA2021)</h6>
-        <p>Copyright &copy; 2021, Caroline He.</p >
-
-        <div class="row">
-          <div class="col-xs-12 col-sm-7">
-          </div>
-          <div class="col-xs-12 col-sm-5">
-            <p class="text-left">
-              <a class="fa fa-facebook" href="https://www.facebook.com/sharer.php?s=100&amp;u=https://caroline0029.github.io/PM566-project/Final/index.html&amp;t=Pattern%20of%20heart%20disease%20death%20rate%20within%20gender%20and%20race%20stratifictaion%20in%20CA%20during%202014."></a>
-              <a class="fa fa-twitter" href="https://twitter.com/intent/tweet?url=https://caroline0029.github.io/PM566-project/Final/index.html&amp;text=Pattern%20of%20heart%20disease%20death%20rate%20within%20gender%20and%20race%20stratification%20in%20CA%20during%202014."></a>
-            </p>
-          </div>
-        </div>
-        
-        
-      </div>
-    </div>
-  </div>
-</footer>
-
-
-</div>
-</div>
 
 </div>
 
@@ -699,35 +595,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
